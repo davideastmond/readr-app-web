@@ -1,0 +1,23 @@
+{
+  "jshint.options": {
+    "esversion": 8
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "files.eol": "\n",
+  "cSpell.words": ["Coursera", "Pojo", "Unfollow"],
+  "jestrunner.debugOptions": {
+    "args": ["--no-cache"],
+    "sourcemaps": "inline",
+    "disableOptimisticBPs": true
+  }
+}

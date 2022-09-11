@@ -1,0 +1,11 @@
+@media only screen and (max-width: 899px) {
+  .LogoImage {
+    max-width: 300px;
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .LogoImage {
+    max-width: 600px;
+  }
+}
