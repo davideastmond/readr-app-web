@@ -22,6 +22,7 @@ const StyledDiv = styled("div")<BoxProps & ISignInControlsProps>((props) => ({
 interface ISignInControlsProps {
   square?: boolean;
   backgroundFillColor?: string;
+  onButtonClicked: (value: "register" | "signIn") => void;
 }
 
 function RegisterSignInControls(props: ISignInControlsProps) {
@@ -33,12 +34,16 @@ function RegisterSignInControls(props: ISignInControlsProps) {
           variant="outlined"
           buttonFillColor={pallet.WoodsGreen}
           buttonTextColor={pallet.White}
+          onClick={() => props.onButtonClicked("signIn")}
+          id="sign-in-button"
         />
         <StyledButton
           textLabel="New account"
           variant="outlined"
           buttonFillColor={pallet.OrangeTangerine}
           buttonTextColor={pallet.White}
+          onClick={() => props.onButtonClicked("register")}
+          id="register-button"
         />
       </div>
     </StyledDiv>
