@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 import Button, { ButtonProps } from "@mui/material/Button";
+import React from "react";
 import { pallet } from "../../../themes/theme";
 
 interface IStyledButtonProps extends ButtonProps {
@@ -7,7 +8,8 @@ interface IStyledButtonProps extends ButtonProps {
   buttonTextColor?: string;
   buttonFillColor?: string;
   squared?: boolean;
-  onClick?: () => void;
+  onClick?: (event: any) => void;
+  id: string;
 }
 
 const CustomButton = styled(Button)<IStyledButtonProps>(
@@ -23,7 +25,7 @@ const CustomButton = styled(Button)<IStyledButtonProps>(
 
 function StyledButton(props: IStyledButtonProps) {
   return (
-    <CustomButton {...{ ...props }} onClick={props.onClick}>
+    <CustomButton {...{ ...props, onClick: props.onClick }} id={props.id}>
       {props.textLabel}
     </CustomButton>
   );
