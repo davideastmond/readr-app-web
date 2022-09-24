@@ -8,12 +8,15 @@ import { pallet } from "../../themes/theme";
 const StyledAppBar = styled(AppBar)((props) => ({
   "& .MuiToolbar-root": {
     backgroundColor: `${pallet.WoodsGreen}`,
+    position: "static",
+    width: "100%",
+    zIndex: "100",
   },
 }));
 function NavBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <StyledAppBar position="static">
+      <StyledAppBar>
         <Toolbar>
           <IconButton
             size="large"

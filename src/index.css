@@ -10,3 +10,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.noTextOrnamentation {
+  text-decoration: none;
+  color: #101010;
+  font-style: italic;
+}
+
+.MainPageBufferSpace {
+  padding-top: 60px;
+}

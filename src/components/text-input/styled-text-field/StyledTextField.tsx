@@ -7,6 +7,10 @@ interface IStyledTextFieldProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
+  error?: boolean;
+  helperText?: string;
+  maxLength?: number;
+  disabled?: boolean;
 }
 
 const CustomStyledTextField = styled(TextField)<
@@ -36,6 +40,13 @@ function StyledTextField(props: IStyledTextFieldProps) {
       value={value}
       type={props.type || "text"}
       required={props.required}
+      error={props.error}
+      helperText={props.helperText}
+      maxLength={props.maxLength || 255}
+      inputProps={{
+        autoComplete: "new-password",
+      }}
+      disabled={props.disabled}
     />
   );
 }
