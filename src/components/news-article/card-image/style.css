@@ -1,0 +1,18 @@
+.CardImage {
+  margin: auto;
+  display: block;
+  max-width: 100px;
+  max-height: 100%;
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1535px) {
+  .CardImage {
+    max-width: 150px;
+  }
+}
+
+@media only screen and (min-width: 1536px) {
+  .CardImage {
+    max-width: 200px;
+  }
+}
