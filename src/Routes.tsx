@@ -1,15 +1,79 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { HeadlinesPage } from "./scenes/headlines";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { NavBar } from "./components/navbar";
+import { setNullUserSession } from "./reducers/app-reducer";
+import HeadlinesFeed from "./scenes/feed";
 import { HomePage } from "./scenes/home";
+import { HubPage } from "./scenes/hub";
+import { LoginPage } from "./scenes/login";
+import { RegisterPage } from "./scenes/register";
+import { SessionClient } from "./services/client/session-client";
+import { TokenHandler } from "./services/handlers/token-handler";
+import { AppDispatch } from "./store";
 
-export function AppRoutes({ nav }: { nav?: JSX.Element }) {
+export function AppRoutes({ hasSession }: { hasSession: boolean }) {
+  console.log("**10 has session?>", hasSession);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const LogOutUser = () => {
+    console.log("**15 Logout function was run");
+
+    useEffect(() => {
+      logOutUser();
+    }, []);
+
+    const logOutUser = async () => {
+      if (hasSession) {
+        const sessionClient = new SessionClient();
+        try {
+          await sessionClient.logOut();
+        } catch (err: any) {
+          console.log(err.message);
+        } finally {
+          TokenHandler.clearAuthToken();
+          dispatch(setNullUserSession());
+        }
+      } else {
+        TokenHandler.clearAuthToken();
+        dispatch(setNullUserSession());
+      }
+    };
+    return <Navigate to="/" replace />;
+  };
   return (
     <Router>
-      {nav}
+      <NavBar hasSession={hasSession} />
       <div className="MainPageBufferSpace">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/headlines" element={<HeadlinesPage />} />
+          <Route
+            path="/headlines"
+            element={
+              <HeadlinesFeed mode={"headlines"} hasSession={hasSession} />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              hasSession ? <HubPage hasSession={hasSession} /> : <LoginPage />
+            }
+          />
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route
+            path="/hub"
+            element={
+              hasSession ? <HubPage hasSession={hasSession} /> : <HomePage />
+            }
+          />
+          <Route path="/logout" element={<LogOutUser />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </Router>
