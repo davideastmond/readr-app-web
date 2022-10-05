@@ -20,5 +20,5 @@ const api_url = isProductionMode
 module.exports = {
   AUTH_HEADER: auth_header,
   JWT_TOKEN_REQUEST_HEADER: "X-JWT-Token",
-  API_URL: api_url,
+  API_URL: `${api_url}/api`,
 };
