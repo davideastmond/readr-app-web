@@ -60,7 +60,9 @@ function RegisterPage() {
 
   const generateValidationErrors = (errorMessages: string[]) => {
     return errorMessages.map((errorMessage) => (
-      <Alert severity="error">{errorMessage}</Alert>
+      <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+        {errorMessage}
+      </Alert>
     ));
   };
 
@@ -115,8 +117,7 @@ function RegisterPage() {
     registrationData: IRegistrationSubmissionData
   ) => {
     const authClient = new AuthClient();
-    const response = await authClient.registerUser(registrationData);
-    console.log("reg response", response);
+    await authClient.registerUser(registrationData);
   };
 
   const loginUser = async (
@@ -248,7 +249,9 @@ function RegisterPage() {
         {hasActionError &&
           actionErrorMessage &&
           actionErrorMessage.map((msg) => (
-            <Alert severity="error">{createFriendlyErrorMessage(msg)}</Alert>
+            <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+              {createFriendlyErrorMessage(msg)}
+            </Alert>
           ))}
       </Box>
     </StyledFormContainer>

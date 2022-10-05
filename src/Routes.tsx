@@ -18,12 +18,8 @@ import { TokenHandler } from "./services/handlers/token-handler";
 import { AppDispatch } from "./store";
 
 export function AppRoutes({ hasSession }: { hasSession: boolean }) {
-  console.log("**10 has session?>", hasSession);
   const dispatch = useDispatch<AppDispatch>();
-
   const LogOutUser = () => {
-    console.log("**15 Logout function was run");
-
     useEffect(() => {
       logOutUser();
     }, []);

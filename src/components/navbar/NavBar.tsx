@@ -33,6 +33,13 @@ interface INavBarProps {
   hasSession: boolean;
 }
 
+const StyledListItem = styled(ListItem)((props) => ({
+  "&:hover": {
+    backgroundColor: pallet.WoodsGreen,
+    color: pallet.White,
+  },
+}));
+
 const CloseButton = ({ onClickFunction }: { onClickFunction?: () => void }) => {
   return (
     <ListItem disablePadding>
@@ -56,26 +63,26 @@ const NoSessionMenu = ({
 }) => {
   return (
     <>
-      <ListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/")}>
           <ListItemText>Home</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/headlines")}>
           <ListItemText>Latest Headlines</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/login")}>
           <ListItemText>Sign in</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/register")}>
-          <ListItemText>Register | Sign up</ListItemText>
+          <ListItemText>Create a new account</ListItemText>
         </ListItemButton>
-      </ListItem>
+      </StyledListItem>
     </>
   );
 };
@@ -87,26 +94,26 @@ const SessionMenu = ({
 }) => {
   return (
     <>
-      <ListItem>
-        <ListItemButton onClick={() => onNavLinkClicked("/main")}>
-          <ListItemText>Home</ListItemText>
+      <StyledListItem>
+        <ListItemButton onClick={() => onNavLinkClicked("/hub")}>
+          <ListItemText>Hub</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/headlines")}>
           <ListItemText>Latest Headlines</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/logout")}>
           <ListItemText>Log out</ListItemText>
         </ListItemButton>
-      </ListItem>
-      <ListItem>
+      </StyledListItem>
+      <StyledListItem>
         <ListItemButton onClick={() => onNavLinkClicked("/settings")}>
           <ListItemText>User settings</ListItemText>
         </ListItemButton>
-      </ListItem>
+      </StyledListItem>
     </>
   );
 };

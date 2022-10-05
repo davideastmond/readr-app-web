@@ -50,7 +50,9 @@ function LoginPage() {
 
   const generateValidationErrors = (errorMessages: string[]) => {
     return errorMessages.map((errorMessage) => (
-      <Alert severity="error">{errorMessage}</Alert>
+      <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+        {errorMessage}
+      </Alert>
     ));
   };
 
@@ -165,7 +167,9 @@ function LoginPage() {
         {hasActionError &&
           actionErrorMessages &&
           actionErrorMessages.map((msg) => (
-            <Alert severity="error">{createFriendlyErrorMessage(msg)}</Alert>
+            <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+              {createFriendlyErrorMessage(msg)}
+            </Alert>
           ))}
       </Box>
     </StyledFormContainer>

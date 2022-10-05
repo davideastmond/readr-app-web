@@ -7,7 +7,6 @@ export const allFieldsAreValidated = (
   success: boolean;
   validationMessages: string[];
 } => {
-  console.log("7", inputValuesRef);
   const errors: string[] = [];
   for (const validationInstruction of validatorFunction) {
     const fieldsToEvaluate = validationInstruction.fields.map((field) => {
