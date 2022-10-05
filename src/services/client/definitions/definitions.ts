@@ -22,3 +22,15 @@ export interface ILoginResponseData {
   token: string;
   user: ISecureUser;
 }
+
+export interface IArticleBookmarkRequestData {
+  url: string;
+  urlToImage: string;
+  title: string;
+  source: { name: string; id: string };
+}
+
+export interface IActiveSessionResponseData {
+  active: boolean;
+  user: ISecureUser;
+}

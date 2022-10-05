@@ -1,18 +1,19 @@
 import axios from "axios";
 import { AUTH_HEADER, API_URL } from "../../environment";
 
-export class BaseClient {
+export abstract class BaseClient {
   private api;
 
-  constructor() {
+  constructor(headers?: { [keyof: string]: string }) {
     this.api = axios.create({
       baseURL: API_URL,
       headers: {
         ...AUTH_HEADER,
+        ...headers,
       },
     });
   }
-  public async getData<T>(url: string): Promise<T> {
+  protected async getData<T>(url: string): Promise<T> {
     const response = await this.api.get(url);
     return response.data;
   }
@@ -29,6 +30,11 @@ export class BaseClient {
 
   protected async putData<T, D>(url: string, data?: D): Promise<T> {
     const response = await this.api.put(url, data);
+    return response.data;
+  }
+
+  protected async deleteData<T, D>(url: string, data?: D): Promise<T> {
+    const response = await this.api.delete(url, { data: data });
     return response.data;
   }
 }
