@@ -1,16 +1,28 @@
 // This is the main article card. It will have an image, title, blurb, link to main article
-// Allow favorite toggle if user is logged in
+// Allow bookmarks toggle if user is logged in
 
 import { NewsArticle } from "../../../definitions/news-article.types";
 import { Grid, Paper, ButtonBase, Typography, styled } from "@mui/material";
 import CardImage from "../card-image/CardImage";
 import { StringHelpers } from "../../../utils/string-helpers";
-import { FavBar } from "../../fav-bar";
+import { BookmarkBar } from "../../bookmark-bar";
 
 interface INewsArticleCardProps {
   article: NewsArticle;
-  canFavorite?: boolean;
-  isFavorite?: boolean;
+  canInteract?: boolean;
+  isBookmarked?: boolean;
+  onDeleteBookmark?: (url: string) => void;
+  onAddBookmark?: ({
+    url,
+    title,
+    urlToImage,
+    source,
+  }: {
+    url: string;
+    title: string;
+    urlToImage: string;
+    source: { name: string; id: string };
+  }) => void;
 }
 
 const StyledArticleTitle = styled(Typography)((props) => ({
@@ -19,6 +31,29 @@ const StyledArticleTitle = styled(Typography)((props) => ({
   },
 }));
 function NewsArticleCard(props: INewsArticleCardProps) {
+  const handleBookmarkToggled = ({
+    current,
+    next,
+  }: {
+    current: boolean;
+    next: boolean;
+  }) => {
+    if (next === true) {
+      props.onAddBookmark &&
+        props.onAddBookmark({
+          url: props.article.url,
+          title: props.article.title,
+          urlToImage: props.article.urlToImage,
+          source: {
+            name: props.article.source.name,
+            id: props.article.source.id,
+          },
+        });
+    } else {
+      props.onDeleteBookmark && props.onDeleteBookmark(props.article.url);
+    }
+  };
+
   return (
     <Paper
       sx={{
@@ -30,7 +65,7 @@ function NewsArticleCard(props: INewsArticleCardProps) {
     >
       <Grid container spacing={2}>
         <Grid item>
-          <ButtonBase>
+          <ButtonBase href={props.article.url} target="_blank" rel="noreferrer">
             <CardImage src={props.article.urlToImage} />
           </ButtonBase>
         </Grid>
@@ -56,7 +91,12 @@ function NewsArticleCard(props: INewsArticleCardProps) {
                   dateString: props.article.publishedAt,
                 })}
               </Typography>
-              {props.canFavorite && <FavBar checked={!!props.isFavorite} />}
+              {props.canInteract && (
+                <BookmarkBar
+                  checked={!!props.isBookmarked}
+                  onClick={handleBookmarkToggled}
+                />
+              )}
             </Grid>
           </Grid>
         </Grid>

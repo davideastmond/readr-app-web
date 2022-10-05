@@ -4,7 +4,7 @@ import React, { useState } from "react";
 interface IStyledTextFieldProps {
   label: string;
   id: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
   required?: boolean;
   error?: boolean;
@@ -29,7 +29,7 @@ function StyledTextField(props: IStyledTextFieldProps) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setValue(event.target.value);
-    props.onChange(event);
+    props.onChange && props.onChange(event);
   };
   return (
     <CustomStyledTextField

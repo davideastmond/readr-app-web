@@ -10,6 +10,7 @@ interface IStyledButtonProps extends ButtonProps {
   squared?: boolean;
   onClick?: (event: any) => void;
   id: string;
+  sx?: { [keyof: string]: string };
 }
 
 const CustomButton = styled(Button)<IStyledButtonProps>(
@@ -25,7 +26,10 @@ const CustomButton = styled(Button)<IStyledButtonProps>(
 
 function StyledButton(props: IStyledButtonProps) {
   return (
-    <CustomButton {...{ ...props, onClick: props.onClick }} id={props.id}>
+    <CustomButton
+      {...{ ...props, sx: props.sx, onClick: props.onClick }}
+      id={props.id}
+    >
       {props.textLabel}
     </CustomButton>
   );
