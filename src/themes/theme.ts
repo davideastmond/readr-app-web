@@ -8,6 +8,7 @@ export const pallet = {
   White: "#ffffff",
   GrapeWine: "#57466C",
   DarkCharcoalGrey: "#101010",
+  RedTiaMaria: "#C9470b",
 };
 
 export const theme = createTheme({
