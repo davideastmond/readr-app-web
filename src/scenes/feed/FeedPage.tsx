@@ -11,7 +11,7 @@ import {
   selectUserBookmarks,
 } from "../../reducers/app-reducer";
 import { useAppSelector } from "../../hooks";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { UserClient } from "../../services/client/user-client";
 import { NewsClient } from "../../services/client/news-client";
 
@@ -106,10 +106,15 @@ function FeedPage(props: IFeedPageProps) {
     <div className="HeadlinesPage__main">
       {isLoading && <Spinner marginTop="10px" />}
       {hasError && (
-        <Box component={"div"} display="flex" justifyContent={"center"}>
-          <Typography fontSize={"1rem"} color={pallet.RedTiaMaria}>
+        <Box
+          component={"div"}
+          display="flex"
+          justifyContent={"center"}
+          marginTop="10px"
+        >
+          <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
             {errorMessage}
-          </Typography>
+          </Alert>
         </Box>
       )}
       <div className="HeadlinesPage_Articles__Container">
