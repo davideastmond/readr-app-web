@@ -12,7 +12,7 @@ import {
   selectUserTopics,
 } from "../../reducers/app-reducer";
 import React, { useRef, useState } from "react";
-import { Box, TextField, Typography } from "@mui/material";
+import { Alert, Box, TextField, Typography } from "@mui/material";
 
 import { StyledButton } from "../buttons/styled-button";
 import { pallet } from "../../themes/theme";
@@ -119,10 +119,10 @@ function TopicsPanel(props: ITopicsPanelProps) {
       <Box>{appStateStatus.status === StateStatus.Loading && <Spinner />}</Box>
       <Box>
         {appStateStatus.status === StateStatus.Error && (
-          <Typography fontSize={"0.9rem"} color={pallet.RedTiaMaria}>
+          <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
             {appStateStatus.message ||
               `${appStateStatus.message}: There was an error completing this request. Please try signing in again.`}
-          </Typography>
+          </Alert>
         )}
       </Box>
       <Box width={"100%"} maxWidth={"600px"}>

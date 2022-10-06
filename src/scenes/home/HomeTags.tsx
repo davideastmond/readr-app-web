@@ -7,22 +7,33 @@ export function HomeTags() {
   return (
     <Box>
       <Typography
-        bgcolor={pallet.WoodsGreen}
-        color={pallet.White}
+        bgcolor={pallet.White}
+        color={pallet.WoodsGreen}
         padding={bumperPadding}
         textAlign="center"
         fontSize={"1rem"}
       >
-        Your favorite trusted news sources
+        Headlines and breaking news
       </Typography>
       <Typography
-        bgcolor={pallet.IceCreamPink}
+        bgcolor={pallet.OrangeTangerine}
+        color={pallet.WoodsGreen}
         padding={bumperPadding}
         textAlign="center"
         fontSize={"1rem"}
       >
-        Topics and tags, all customized and up-to-date
+        All of your favorite and trusted news sources
       </Typography>
+      <Typography
+        bgcolor={pallet.WoodsGreen}
+        padding={bumperPadding}
+        textAlign="center"
+        fontSize={"1rem"}
+        color={pallet.White}
+      >
+        Customized feed and bookmarks all up-to-date in one place
+      </Typography>
+      <Typography marginTop={"20px"}>© 2022 Readr Ltd.</Typography>
     </Box>
   );
 }

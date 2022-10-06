@@ -119,15 +119,19 @@ function FeedPage(props: IFeedPageProps) {
       )}
       <div className="HeadlinesPage_Articles__Container">
         <Box
-          component={"header"}
+          component={"div"}
           mt={"20px"}
           display="flex"
           justifyContent={"center"}
         >
           {props.mode === "headlines" ? (
-            <Typography variant="h3">Latest top headlines</Typography>
+            <Typography variant="h4" textAlign={"center"}>
+              Latest top headlines
+            </Typography>
           ) : (
-            <Typography variant="h3">Your feed</Typography>
+            <Typography variant="h4" textAlign={"center"}>
+              Your feed
+            </Typography>
           )}
         </Box>
         {articles &&

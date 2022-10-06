@@ -1,6 +1,6 @@
 // This is in charge of getting the user's saved bookmarks
 
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import {
@@ -35,8 +35,10 @@ function BookmarksPanel(props: IBookmarksPanelProps) {
     <Box component={"div"} className="BookmarkArticles__container">
       {appState.status === StateStatus.Loading && <Spinner marginTop="10px" />}
       {appState.status === StateStatus.Error && (
-        <Box>
-          <Typography color={pallet.RedTiaMaria}>{appState.message}</Typography>
+        <Box marginTop={"10px"}>
+          <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
+            {appState.message}
+          </Alert>
         </Box>
       )}
       <Box
