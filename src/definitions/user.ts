@@ -13,3 +13,8 @@ export interface IArticleBookmark {
   urlToImage: string;
   createdAt: string;
 }
+
+export interface IUserEmailResponse {
+  _id: string;
+  email: string;
+}
