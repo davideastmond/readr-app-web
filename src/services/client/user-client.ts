@@ -63,4 +63,11 @@ export class UserClient extends BaseClient {
     const apiUrl = "/user/email";
     return this.getData<IUserEmailResponse>(apiUrl);
   }
+
+  public async putUpdatePassword(data: string): Promise<{ status: string }> {
+    const apiUrl = "/user/password";
+    return this.putData<{ status: string }, { password: string }>(apiUrl, {
+      password: data,
+    });
+  }
 }

@@ -1,11 +1,20 @@
-import { FormControl, styled, Typography } from "@mui/material";
+import {
+  Alert,
+  FormControl,
+  styled,
+  Typography,
+  Snackbar,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hooks";
 import { selectSessionUser } from "../../reducers/app-reducer";
 import { UserClient } from "../../services/client/user-client";
 import { pallet } from "../../themes/theme";
+import { allFieldsAreValidated } from "../../validators/validator";
+import { UPDATE_PASSWORD_VALIDATOR } from "../../validators/validators-functions";
 import { StyledButton } from "../buttons/styled-button";
+import { Spinner } from "../spinner";
 import { StyledTextField } from "../text-input";
 
 interface IUserSettingsPanelProps {
@@ -15,6 +24,7 @@ interface IUserSettingsPanelProps {
 const StyledSettingsBox = styled(Box)((props) => ({
   marginBottom: "20px",
 }));
+
 /**
  * This component allows user to update their password
  * As well as first and last name. E-mail will appear as a static readonly label
@@ -22,11 +32,17 @@ const StyledSettingsBox = styled(Box)((props) => ({
 function UserSettingsPanel(props: IUserSettingsPanelProps) {
   const [userEmail, setUserEmail] = useState<string>("");
   const sessionUser = useAppSelector(selectSessionUser);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [snackBarIsOpen, setSnackBarIsOpen] = useState<boolean>(false);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [hasValidationError, setHasValidationError] = useState<boolean>(false);
   useEffect(() => {
     getEmailAddress();
   }, []);
 
-  const inputRefs = useRef({});
+  const inputRefs = useRef<any>({});
 
   const getEmailAddress = async () => {
     const userClient = new UserClient();
@@ -38,22 +54,93 @@ function UserSettingsPanel(props: IUserSettingsPanelProps) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     inputRefs.current = {
-      ...inputRefs,
+      ...inputRefs.current,
       [event.target.id]: event.target.value,
     };
   };
+
+  const onSubmitUpdatePassword = async () => {
+    // Do some validation
+    // Do a put request to update user password
+    clearErrors();
+    const userClient = new UserClient();
+    const plainTextPassword = inputRefs.current["update-password1"];
+    if (!validatePasswordFields()) return;
+    if (plainTextPassword) {
+      try {
+        setIsLoading(true);
+        await userClient.putUpdatePassword(plainTextPassword);
+        // Display a success message
+        setSnackBarIsOpen(true);
+        setIsLoading(false);
+      } catch (err: any) {
+        setHasError(true);
+        setErrorMessage(err.message);
+        console.log(err);
+      }
+    }
+  };
+
+  const validatePasswordFields = (): boolean => {
+    const result = allFieldsAreValidated(
+      UPDATE_PASSWORD_VALIDATOR,
+      inputRefs.current
+    );
+    if (result.success) return true;
+    setValidationErrors(result.validationMessages);
+    setHasValidationError(true);
+    return result.success;
+  };
+
+  const clearErrors = () => {
+    setHasValidationError(false);
+    setValidationErrors([]);
+    setErrorMessage("");
+    setHasError(false);
+    setIsLoading(false);
+    setSnackBarIsOpen(false);
+  };
+
+  const handleSnackBarClose = () => {
+    setSnackBarIsOpen(false);
+  };
   return (
     <Box width="100%">
+      {isLoading && <Spinner marginTop="10px" />}
+      {hasError && (
+        <Box
+          component={"div"}
+          display="flex"
+          justifyContent={"center"}
+          marginTop="10px"
+        >
+          <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
+            {errorMessage}
+          </Alert>
+        </Box>
+      )}
+      <Snackbar
+        open={snackBarIsOpen}
+        autoHideDuration={10000}
+        onClose={handleSnackBarClose}
+      >
+        <Alert
+          onClose={handleSnackBarClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Password updated successfully
+        </Alert>
+      </Snackbar>
       <StyledSettingsBox mb={"20px"}>
         {sessionUser && (
-          <Typography>
+          <Typography variant="h3">
             {`${sessionUser.firstName} ${sessionUser.lastName}`}
           </Typography>
         )}
       </StyledSettingsBox>
       <StyledSettingsBox>
-        <Typography>Your e-mail address:</Typography>
-        <Typography>{userEmail}</Typography>
+        <Typography color={pallet.DarkCharcoalGrey}>{userEmail}</Typography>
       </StyledSettingsBox>
       <StyledSettingsBox>
         <form>
@@ -70,25 +157,42 @@ function UserSettingsPanel(props: IUserSettingsPanelProps) {
               />
             </FormControl>
           </Box>
-          <FormControl>
-            <StyledTextField
-              id="update-password2"
-              label="Confirm Password"
-              onChange={handleTextInputChange}
-              maxLength={255}
-              type="password"
-              required={true}
-            />
-          </FormControl>
-          <FormControl>
-            <StyledButton
-              textLabel="Update"
-              id="submit-update-password"
-              buttonTextColor={pallet.DarkCharcoalGrey}
-            />
-          </FormControl>
+          <Box>
+            <FormControl>
+              <StyledTextField
+                id="update-password2"
+                label="Confirm Password"
+                onChange={handleTextInputChange}
+                maxLength={255}
+                type="password"
+                required={true}
+              />
+            </FormControl>
+          </Box>
+          <Box>
+            <FormControl>
+              <StyledButton
+                textLabel="Update"
+                id="submit-update-password"
+                buttonFillColor={pallet.WoodsGreen}
+                buttonTextColor={pallet.White}
+                onClick={onSubmitUpdatePassword}
+                squared={true}
+                disabled={isLoading}
+              />
+            </FormControl>
+          </Box>
         </form>
       </StyledSettingsBox>
+      <Box>
+        {hasValidationError &&
+          validationErrors &&
+          validationErrors.map((msg) => (
+            <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+              {msg}
+            </Alert>
+          ))}
+      </Box>
     </Box>
   );
 }
