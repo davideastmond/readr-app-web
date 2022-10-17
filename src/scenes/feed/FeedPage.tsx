@@ -32,6 +32,7 @@ function FeedPage(props: IFeedPageProps) {
 
   const fetchHeadlines = async () => {
     setIsLoading(true);
+    setHasError(false);
     try {
       const client = new NewsClient();
       const data = await client.fetchHeadlines();

@@ -12,6 +12,7 @@ import {
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { AppDispatch } from "../../store";
 import { pallet } from "../../themes/theme";
+import { createFriendlyErrorMessage } from "../../utils/friendly-error-message-factory";
 import { StyledButton } from "../buttons/styled-button";
 import { Spinner } from "../spinner";
 import { BookmarkArticleCard } from "./card/BookMarkedArticleCard";
@@ -37,7 +38,7 @@ function BookmarksPanel(props: IBookmarksPanelProps) {
       {appState.status === StateStatus.Error && (
         <Box marginTop={"10px"}>
           <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
-            {appState.message}
+            {createFriendlyErrorMessage(appState.message)}
           </Alert>
         </Box>
       )}

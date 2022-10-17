@@ -86,6 +86,8 @@ function LoginPage() {
         const errors = actionErrorMessages || [];
         errors.push(err.message);
         setActionErrorMessages(errors);
+      } finally {
+        setIsBusy(false);
       }
     } else {
       setIsBusy(false);
