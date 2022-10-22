@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { NewsSourcesPanel } from "../../components/news-sources-panel";
 import { UserSettingsPanel } from "../../components/user-settings-panel";
 
 interface ISettingsProps {
@@ -54,7 +55,7 @@ function Settings(props: ISettingsProps) {
         <UserSettingsPanel hasSession={props.hasSession} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <p>New sources placeholder</p>
+        <NewsSourcesPanel hasSession={props.hasSession} />
       </TabPanel>
     </Box>
   );
