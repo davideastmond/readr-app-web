@@ -14,9 +14,13 @@ import {
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { INewsSource } from "../../definitions/user";
+import { useAppSelector } from "../../hooks";
+import { selectAppStatus } from "../../reducers/app-reducer";
+import { StateStatus } from "../../reducers/state-store.definitions";
 import { NewsClient } from "../../services/client/news-client";
 import { pallet } from "../../themes/theme";
 import { StyledButton } from "../buttons/styled-button";
+import { Spinner } from "../spinner";
 import "./style.css";
 interface INewsSourcesPanel {
   hasSession?: boolean;
@@ -37,7 +41,7 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
   const [originalSources, setOriginalSources] = useState<INewsSource[]>([]);
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const [radioValue, setRadioValue] = useState<string>("noFilter");
-
+  const appState = useAppSelector(selectAppStatus);
   const [selectedItems, setSelectedItems] = useState<INewsSource[]>([]);
   const [targetedItems, setTargetedItems] = useState<INewsSource[]>([]);
   const fetchSources = async () => {
@@ -45,6 +49,19 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
     return newsSourceClient.getNewsSources();
   };
 
+  // Reset the lists and fetch original sournces
+  const resetLists = async () => {
+    try {
+      setIsBusy(true);
+      setSelectedItems([]);
+      setTargetedItems([]);
+      await mapToINewsSource();
+    } catch (err: any) {
+      console.error(err.message);
+    } finally {
+      setIsBusy(false);
+    }
+  };
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRadioValue((event.target as HTMLInputElement).value);
   };
@@ -93,7 +110,7 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
   ): JSX.Element => {
     return (
       <StyledListItem
-        selected={sourceArray.some((el) => el.id === item.id)}
+        selected={selectedItems.some((el) => el.id === item.id)}
         key={`item__${item.id}`}
       >
         <ListItemButton
@@ -109,10 +126,36 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
 
   const handleAddSelectedItems = () => {
     // Transer the items
-    console.log(selectedItems);
+    setOriginalSources(filterFromSourceList(selectedItems));
+    setTargetedItems(addToTargetList(selectedItems));
+    // Clear the selected list
+    setSelectedItems([]);
+  };
+
+  const filterFromSourceList = (items: INewsSource[]): INewsSource[] => {
+    return originalSources.filter((sourceItem) => {
+      return !items.some((s) => s.id === sourceItem.id);
+    });
+  };
+
+  // Add an array of items to target list
+  const addToTargetList = (items: INewsSource[]): INewsSource[] => {
+    const sanitizedList = targetedItems.filter((sourceItem) => {
+      return !items.some((s) => s.id === sourceItem.id);
+    });
+
+    items.forEach((i) => {
+      sanitizedList.push(i);
+    });
+    return sanitizedList;
   };
   return (
     <Box>
+      <Box>
+        {appState.status === StateStatus.Loading && (
+          <Spinner marginTop="10px" />
+        )}
+      </Box>
       <Box component={"header"}>
         <FormControl>
           <FormLabel id="sources-control">Sources Options</FormLabel>
@@ -184,11 +227,21 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
               sx={{ borderRadius: "0px", display: "block" }}
             />
           </Box>
+          <Box component="div" className="container__controls" mt={5}>
+            <StyledButton
+              textLabel="Reset"
+              id="reset"
+              buttonFillColor={pallet.GrapeWine}
+              buttonTextColor={pallet.White}
+              sx={{ borderRadius: "0px", display: "block" }}
+              onClick={resetLists}
+            />
+          </Box>
         </div>
         <List className="container__list-boxes">
-          <ListItem>
-            <ListItemText>Placeholder</ListItemText>
-          </ListItem>
+          {targetedItems &&
+            targetedItems.length > 0 &&
+            targetedItems.map((item) => generateItems(item, targetedItems))}
         </List>
       </Box>
     </Box>
