@@ -3,7 +3,7 @@ export interface ISecureUser {
     topics: string[];
     bookmarks: IArticleBookmark[];
     sources: {
-      option: string;
+      option: TCustomSourceFilter;
       list: INewsSource;
     };
   };
@@ -12,6 +12,8 @@ export interface ISecureUser {
   lastName: string;
   _id: string;
 }
+
+export type TCustomSourceFilter = "none" | "onlyInclude" | "onlyExclude";
 export interface INewsSource {
   name: string;
   id: string;
