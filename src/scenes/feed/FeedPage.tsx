@@ -105,7 +105,11 @@ function FeedPage(props: IFeedPageProps) {
 
   return (
     <div className="HeadlinesPage__main">
-      {isLoading && <Spinner marginTop="10px" />}
+      {isLoading && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       {hasError && (
         <Box
           component={"div"}

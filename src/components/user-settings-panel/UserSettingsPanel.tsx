@@ -106,7 +106,11 @@ function UserSettingsPanel(props: IUserSettingsPanelProps) {
   };
   return (
     <Box width="100%">
-      {isLoading && <Spinner marginTop="10px" />}
+      {isLoading && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       {hasError && (
         <Box
           component={"div"}

@@ -145,7 +145,11 @@ function RegisterPage() {
           Sign up
         </Typography>
       </Box>
-      {isBusy && <Spinner />}
+      {isBusy && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       <FormControl>
         <StyledTextField
           id="register-email"

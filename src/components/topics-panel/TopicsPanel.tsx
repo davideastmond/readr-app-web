@@ -116,7 +116,13 @@ function TopicsPanel(props: ITopicsPanelProps) {
   };
   return (
     <Box>
-      <Box>{appStateStatus.status === StateStatus.Loading && <Spinner />}</Box>
+      <Box>
+        {appStateStatus.status === StateStatus.Loading && (
+          <div className="Spinner__enclosure">
+            <Spinner />
+          </div>
+        )}
+      </Box>
       <Box>
         {appStateStatus.status === StateStatus.Error && (
           <Alert severity="error" sx={{ backgroundColor: pallet.White }}>

@@ -152,7 +152,9 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
     <Box>
       <Box>
         {appState.status === StateStatus.Loading && (
-          <Spinner marginTop="10px" />
+          <div className="Spinner__enclosure">
+            <Spinner />
+          </div>
         )}
       </Box>
       <Box component={"header"}>

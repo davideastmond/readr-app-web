@@ -34,7 +34,11 @@ function BookmarksPanel(props: IBookmarksPanelProps) {
   };
   return (
     <Box component={"div"} className="BookmarkArticles__container">
-      {appState.status === StateStatus.Loading && <Spinner marginTop="10px" />}
+      {appState.status === StateStatus.Loading && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       {appState.status === StateStatus.Error && (
         <Box marginTop={"10px"}>
           <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
