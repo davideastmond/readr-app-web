@@ -8,7 +8,7 @@ import {
   deleteBookmarkAsync,
   selectAppStatus,
   selectUserBookmarks,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { AppDispatch } from "../../store";
 import { pallet } from "../../themes/theme";

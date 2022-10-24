@@ -7,7 +7,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { NavBar } from "./components/navbar";
-import { setNullUserSession } from "./reducers/app-reducer";
+import { setNullUserSession } from "./reducers/app.reducer";
 import HeadlinesFeed from "./scenes/feed";
 import { HomePage } from "./scenes/home";
 import { HubPage } from "./scenes/hub";

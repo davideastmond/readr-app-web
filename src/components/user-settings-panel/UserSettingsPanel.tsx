@@ -8,7 +8,7 @@ import {
 import { Box } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hooks";
-import { selectSessionUser } from "../../reducers/app-reducer";
+import { selectSessionUser } from "../../reducers/app.reducer";
 import { UserClient } from "../../services/client/user-client";
 import { pallet } from "../../themes/theme";
 import { allFieldsAreValidated } from "../../validators/validator";

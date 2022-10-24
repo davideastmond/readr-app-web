@@ -6,7 +6,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  Menu,
   Radio,
   RadioGroup,
   styled,
@@ -15,7 +14,7 @@ import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { INewsSource } from "../../definitions/user";
 import { useAppSelector } from "../../hooks";
-import { selectAppStatus } from "../../reducers/app-reducer";
+import { selectAppStatus } from "../../reducers/app.reducer";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { NewsClient } from "../../services/client/news-client";
 import { pallet } from "../../themes/theme";

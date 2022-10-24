@@ -10,7 +10,7 @@ import {
   putTopicsAsync,
   selectAppStateStatus,
   selectUserTopics,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import React, { useRef, useState } from "react";
 import { Alert, Box, TextField, Typography } from "@mui/material";
 

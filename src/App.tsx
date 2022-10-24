@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import {
   isSessionActiveAsync,
   selectIsSessionActive,
-} from "./reducers/app-reducer";
+} from "./reducers/app.reducer";
 import { useAppSelector } from "./hooks";
 
 function App() {

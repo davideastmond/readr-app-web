@@ -9,7 +9,7 @@ import {
   deleteBookmarkAsync,
   putBookmarkAsync,
   selectUserBookmarks,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import { useAppSelector } from "../../hooks";
 import { Alert, Box, Typography } from "@mui/material";
 import { UserClient } from "../../services/client/user-client";

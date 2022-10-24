@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import {
   setAuthSessionUser,
   isSessionActiveAsync,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import { AuthClient } from "../../services/client/auth-client";
 import { useNavigate } from "react-router-dom";
 import { AppLogo } from "../../components/app-logo";

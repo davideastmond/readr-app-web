@@ -1,4 +1,4 @@
-import { IAppState } from "./app-reducer";
+import { IAppState } from "./app.reducer";
 
 export type TGlobalAppStoreState = {
   app: IAppState;
