@@ -14,6 +14,7 @@ import { pallet } from "../../themes/theme";
 import { allFieldsAreValidated } from "../../validators/validator";
 import { UPDATE_PASSWORD_VALIDATOR } from "../../validators/validators-functions";
 import { StyledButton } from "../buttons/styled-button";
+import { SnackBarAlert } from "../snack-alert";
 import { Spinner } from "../spinner";
 import { StyledTextField } from "../text-input";
 
@@ -123,19 +124,11 @@ function UserSettingsPanel(props: IUserSettingsPanelProps) {
           </Alert>
         </Box>
       )}
-      <Snackbar
-        open={snackBarIsOpen}
-        autoHideDuration={10000}
+      <SnackBarAlert
+        isOpen={snackBarIsOpen}
         onClose={handleSnackBarClose}
-      >
-        <Alert
-          onClose={handleSnackBarClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Password updated successfully
-        </Alert>
-      </Snackbar>
+        text="Password updated successfully"
+      />
       <StyledSettingsBox mb={"20px"}>
         {sessionUser && (
           <Typography variant="h3">

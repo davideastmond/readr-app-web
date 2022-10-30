@@ -13,3 +13,9 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.absolute-positioning {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}

@@ -4,7 +4,7 @@ export interface ISecureUser {
     bookmarks: IArticleBookmark[];
     sources: {
       option: TCustomSourceFilter;
-      list: INewsSource;
+      list: INewsSource[];
     };
   };
   countryCode: string;
@@ -13,6 +13,10 @@ export interface ISecureUser {
   _id: string;
 }
 
+export interface INewsSourcePatchRequestData {
+  option: TCustomSourceFilter;
+  list: INewsSource[];
+}
 export type TCustomSourceFilter = "none" | "onlyInclude" | "onlyExclude";
 export interface INewsSource {
   name: string;

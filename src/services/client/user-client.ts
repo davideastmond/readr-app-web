@@ -1,5 +1,10 @@
 import { INewsArticleAPIResponse } from "../../definitions/news-article.types";
-import { ISecureUser, IUserEmailResponse } from "../../definitions/user";
+import {
+  INewsSourcePatchRequestData,
+  ISecureUser,
+  IUserEmailResponse,
+  TCustomSourceFilter,
+} from "../../definitions/user";
 import { TokenHandler } from "../handlers/token-handler";
 import { BaseClient } from "./base-client";
 import { IArticleBookmarkRequestData } from "./definitions/definitions";
@@ -69,5 +74,15 @@ export class UserClient extends BaseClient {
     return this.putData<{ status: string }, { password: string }>(apiUrl, {
       password: data,
     });
+  }
+
+  public async patchNewsSources(
+    data: INewsSourcePatchRequestData
+  ): Promise<ISecureUser> {
+    const apiUrl = "/user/source";
+    return this.patchData<ISecureUser, INewsSourcePatchRequestData>(
+      apiUrl,
+      data
+    );
   }
 }

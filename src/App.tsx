@@ -14,6 +14,9 @@ function App() {
 
   useEffect(() => {
     dispatch(isSessionActiveAsync());
+    const appTimer = setInterval(() => {
+      dispatch(isSessionActiveAsync());
+    }, 5000);
   }, []);
 
   return (
