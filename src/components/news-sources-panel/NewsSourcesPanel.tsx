@@ -72,6 +72,8 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
 
   const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
+  const [isPatchUpdating, setIsPatchUpdating] = useState<boolean>(false);
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
   const sessionUser = useAppSelector(selectSessionUser);
 
   const fetchSources = async () => {
@@ -97,74 +99,66 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
       (event.target as HTMLInputElement).value as TCustomSourceFilter
     );
   };
-  const mapToINewsSource = async () => {
-    const mappedSources = await fetchSources().then((source) => {
-      return Object.entries(source).map((el) => {
-        return {
-          name: el[1],
-          id: el[0],
-        };
-      });
-    });
 
-    if (sessionUser && sessionUser.configuration.sources.option !== "none") {
-      const userSources = sessionUser.configuration.sources.list;
-      setSelectedItems([]);
-      setTargetedItems(userSources);
-      const sourceListFiltered = NEWS_SOURCE_HELPERS.filterFromSourceList(
-        userSources,
-        mappedSources
-      );
-      setOriginalSources(sourceListFiltered);
-    } else {
-      setOriginalSources(mappedSources);
-    }
-    setOriginalSourcesReference(mappedSources);
+  const mapToINewsSource = async () => {
+    const sources = await fetchSources();
+    return Object.entries(sources).map((el) => {
+      return {
+        name: el[1],
+        id: el[0],
+      };
+    });
   };
 
   // On initial load, we need to check the user's news sources status
   useEffect(() => {
-    if (sessionUser && sessionUser.configuration.sources) {
-      if (
-        sessionUser.configuration.sources.option === "none" ||
-        (sessionUser.configuration.sources.option as any) === ""
-      ) {
-        try {
-          setIsBusy(true);
-          fetchSourcesNone();
-          setRadioValue("none");
-        } catch (err: any) {
-          console.error(err.message);
-        } finally {
-          setIsBusy(false);
-        }
-      } else {
-        try {
-          setIsBusy(true);
-          fetchSourcesFiltered(sessionUser);
-          sessionUser.configuration.sources.option === "onlyInclude"
-            ? setRadioValue("onlyInclude")
-            : setRadioValue("onlyExclude");
-        } catch (err: any) {
-          console.error(err.message);
-        } finally {
-          setIsBusy(false);
+    const loadSourcesOnInitialRender = async () => {
+      if (sessionUser && sessionUser.configuration.sources) {
+        if (
+          sessionUser.configuration.sources.option === "none" ||
+          (sessionUser.configuration.sources.option as any) === ""
+        ) {
+          try {
+            setIsBusy(true);
+            // Test
+            const mappedSources = await fetchSourcesNone();
+            setOriginalSources(mappedSources);
+            setOriginalSourcesReference(mappedSources);
+            setRadioValue("none");
+          } catch (err: any) {
+            console.error(err.message);
+          } finally {
+            setIsBusy(false);
+          }
+        } else {
+          try {
+            setIsBusy(true);
+            const userSourcesLists = sessionUser.configuration.sources.list;
+            setSelectedItems([]);
+            setTargetedItems(userSourcesLists);
+            const mappedSources = await fetchSourcesNone();
+            const sourceListFiltered = NEWS_SOURCE_HELPERS.filterFromSourceList(
+              userSourcesLists,
+              mappedSources
+            );
+            setOriginalSources(sourceListFiltered);
+            sessionUser.configuration.sources.option === "onlyInclude"
+              ? setRadioValue("onlyInclude")
+              : setRadioValue("onlyExclude");
+            setOriginalSourcesReference(mappedSources);
+          } catch (err: any) {
+            console.error(err.message);
+          } finally {
+            setIsBusy(false);
+          }
         }
       }
-    }
+    };
+    loadSourcesOnInitialRender();
   }, []);
 
   const fetchSourcesNone = async () => {
-    await mapToINewsSource();
-  };
-
-  const fetchSourcesFiltered = async (user: ISecureUser) => {
-    // Get all sources
-    await mapToINewsSource();
-
-    // Filter out and set the selected
-    const items = user.configuration.sources.list;
-    setSelectedItems(items);
+    return mapToINewsSource();
   };
 
   const handleSelect = (event: any) => {
@@ -246,8 +240,45 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
         patchNewsSourcesAsync({ option: radioValue, list: targetedItems })
       );
     }
+    setIsPatchUpdating(true);
   };
+  useEffect(() => {
+    const doUserPatchAfterEffect = async () => {
+      if (sessionUser) {
+        setIsBusy(true);
+        await refreshPatchedUser(sessionUser);
+        setIsPatchUpdating(false);
+        setIsBusy(false);
+      }
+    };
+    if (isPatchUpdating) {
+      setIsBusy(true);
+      doUserPatchAfterEffect();
+      setIsBusy(false);
+    }
+  }, [sessionUser]);
 
+  const refreshPatchedUser = async (userData: ISecureUser) => {
+    try {
+      setIsBusy(true);
+      const userSourcesLists = userData.configuration.sources.list;
+      setSelectedItems([]);
+      setTargetedItems(userSourcesLists);
+      const mappedSources = await fetchSourcesNone();
+      const sourceListFiltered = NEWS_SOURCE_HELPERS.filterFromSourceList(
+        userSourcesLists,
+        mappedSources
+      );
+      setOriginalSources(sourceListFiltered);
+      const { option } = userData.configuration.sources;
+      setRadioValue(option);
+      setOriginalSourcesReference(mappedSources);
+    } catch (err: any) {
+      console.error(err.message);
+    } finally {
+      setIsBusy(false);
+    }
+  };
   const handleAddSelectedItems = (
     items: INewsSource[],
     sourceList: INewsSource[]
@@ -285,6 +316,18 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
     setSnackBarOpen(false);
     dispatch(setClearStatusMessage());
   };
+
+  useEffect(() => {
+    if (radioValue === "onlyExclude" || radioValue === "onlyInclude") {
+      if (targetedItems.length === 0) {
+        setIsSubmitDisabled(true);
+      } else {
+        setIsSubmitDisabled(false);
+      }
+    } else {
+      setIsSubmitDisabled(false);
+    }
+  }, [radioValue, targetedItems, targetedItems.length]);
 
   return (
     <Box>
@@ -347,6 +390,7 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
             id="save-options"
             squared={true}
             onClick={handleSubmitSavePatchSources}
+            disabled={isSubmitDisabled}
           />
         </Box>
       </Box>
