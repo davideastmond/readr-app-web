@@ -14,10 +14,15 @@ function App() {
 
   useEffect(() => {
     dispatch(isSessionActiveAsync());
-    const appTimer = setInterval(() => {
-      dispatch(isSessionActiveAsync());
-    }, 5000);
+    window.addEventListener("focus", handleOnFocus);
+    return () => {
+      window.removeEventListener("focus", handleOnFocus);
+    };
   }, []);
+
+  const handleOnFocus = () => {
+    dispatch(isSessionActiveAsync());
+  };
 
   return (
     <div className="App">
