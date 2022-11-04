@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IArticleBookmark, ISecureUser } from "../definitions/user";
+import {
+  IArticleBookmark,
+  INewsSourcePatchRequestData,
+  ISecureUser,
+} from "../definitions/user";
 import {
   IActiveSessionResponseData,
   ILoginResponseData,
@@ -84,6 +88,14 @@ export const deleteTopicsAsync = createAsyncThunk(
   }
 );
 
+export const patchNewsSourcesAsync = createAsyncThunk(
+  "app/patchNewsSource",
+  async (data: INewsSourcePatchRequestData): Promise<ISecureUser> => {
+    const userClient = new UserClient();
+    return userClient.patchNewsSources(data);
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState,
@@ -98,6 +110,9 @@ export const appSlice = createSlice({
     setNullUserSession(state) {
       state.sessionUser = null;
       state.isActiveSession = false;
+    },
+    setClearStatusMessage(state) {
+      state.status.message = "";
     },
   },
   extraReducers: (builder) => {
@@ -190,9 +205,25 @@ export const appSlice = createSlice({
       .addCase(deleteTopicsAsync.rejected, (state, action) => {
         state.status.message = `Unable to delete topics: ${action.error.message}`;
         state.status.status = StateStatus.Error;
+      })
+      .addCase(patchNewsSourcesAsync.pending, (state) => {
+        state.status.status = StateStatus.Loading;
+        state.status.message = "Requesting patch news sources...";
+      })
+      .addCase(patchNewsSourcesAsync.fulfilled, (state, action) => {
+        state.status.message = null;
+        state.sessionUser = action.payload;
+        state.status.status = StateStatus.Idle;
+        state.status.message = SUCCESS_UPDATE_MESSAGE;
+      })
+      .addCase(patchNewsSourcesAsync.rejected, (state, action) => {
+        state.status.message = `Unable to patch news sources: ${action.error.message}`;
+        state.status.status = StateStatus.Error;
       });
   },
 });
+
+export const SUCCESS_UPDATE_MESSAGE = "Update complete";
 
 export const selectSessionUser = (
   state: TGlobalAppStoreState
@@ -213,7 +244,11 @@ export const selectUserTopics = (
 export const selectAppStateStatus = (
   state: TGlobalAppStoreState
 ): { status: StateStatus; message: string | null } => state.app.status;
-export const { setAuthSessionUser, setSessionUser, setNullUserSession } =
-  appSlice.actions;
+export const {
+  setAuthSessionUser,
+  setSessionUser,
+  setNullUserSession,
+  setClearStatusMessage,
+} = appSlice.actions;
 
 export default appSlice.reducer;

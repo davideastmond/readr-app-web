@@ -9,9 +9,9 @@ import {
   deleteBookmarkAsync,
   putBookmarkAsync,
   selectUserBookmarks,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import { useAppSelector } from "../../hooks";
-import { Box, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import { UserClient } from "../../services/client/user-client";
 import { NewsClient } from "../../services/client/news-client";
 
@@ -32,6 +32,7 @@ function FeedPage(props: IFeedPageProps) {
 
   const fetchHeadlines = async () => {
     setIsLoading(true);
+    setHasError(false);
     try {
       const client = new NewsClient();
       const data = await client.fetchHeadlines();
@@ -104,25 +105,38 @@ function FeedPage(props: IFeedPageProps) {
 
   return (
     <div className="HeadlinesPage__main">
-      {isLoading && <Spinner marginTop="10px" />}
+      {isLoading && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       {hasError && (
-        <Box component={"div"} display="flex" justifyContent={"center"}>
-          <Typography fontSize={"1rem"} color={pallet.RedTiaMaria}>
+        <Box
+          component={"div"}
+          display="flex"
+          justifyContent={"center"}
+          marginTop="10px"
+        >
+          <Alert severity="error" sx={{ backgroundColor: pallet.White }}>
             {errorMessage}
-          </Typography>
+          </Alert>
         </Box>
       )}
       <div className="HeadlinesPage_Articles__Container">
         <Box
-          component={"header"}
+          component={"div"}
           mt={"20px"}
           display="flex"
           justifyContent={"center"}
         >
           {props.mode === "headlines" ? (
-            <Typography variant="h3">Latest top headlines</Typography>
+            <Typography variant="h4" textAlign={"center"}>
+              Latest top headlines
+            </Typography>
           ) : (
-            <Typography variant="h3">Your feed</Typography>
+            <Typography variant="h4" textAlign={"center"}>
+              Your feed
+            </Typography>
           )}
         </Box>
         {articles &&

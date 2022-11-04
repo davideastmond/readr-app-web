@@ -71,3 +71,23 @@ export const REGISTRATION_VALIDATOR: IValidationRule[] = [
     validationMessage: "Select a supported country",
   },
 ];
+
+export const UPDATE_PASSWORD_VALIDATOR: IValidationRule[] = [
+  {
+    name: "Validate password complexity",
+    validationFunction: (...args: string[]) => {
+      return StringHelpers.validatePasswordComplexity(args[0]);
+    },
+    fields: ["update-password1"],
+    validationMessage:
+      "Password should be at least 8 characters, contain a number, an uppercase letter and a special character",
+  },
+  {
+    name: "validatePasswordsMatch",
+    validationFunction: (...args: string[]) => {
+      return args[0] === args[1];
+    },
+    fields: ["update-password1", "update-password2"],
+    validationMessage: "Confirm that your passwords match",
+  },
+];

@@ -7,12 +7,13 @@ import {
   Navigate,
 } from "react-router-dom";
 import { NavBar } from "./components/navbar";
-import { setNullUserSession } from "./reducers/app-reducer";
+import { setNullUserSession } from "./reducers/app.reducer";
 import HeadlinesFeed from "./scenes/feed";
 import { HomePage } from "./scenes/home";
 import { HubPage } from "./scenes/hub";
 import { LoginPage } from "./scenes/login";
 import { RegisterPage } from "./scenes/register";
+import { Settings } from "./scenes/settings";
 import { SessionClient } from "./services/client/session-client";
 import { TokenHandler } from "./services/handlers/token-handler";
 import { AppDispatch } from "./store";
@@ -69,6 +70,12 @@ export function AppRoutes({ hasSession }: { hasSession: boolean }) {
             }
           />
           <Route path="/logout" element={<LogOutUser />} />
+          <Route
+            path="/settings"
+            element={
+              hasSession ? <Settings hasSession={hasSession} /> : <HomePage />
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>

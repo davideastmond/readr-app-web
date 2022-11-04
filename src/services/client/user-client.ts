@@ -1,5 +1,10 @@
 import { INewsArticleAPIResponse } from "../../definitions/news-article.types";
-import { ISecureUser } from "../../definitions/user";
+import {
+  INewsSourcePatchRequestData,
+  ISecureUser,
+  IUserEmailResponse,
+  TCustomSourceFilter,
+} from "../../definitions/user";
 import { TokenHandler } from "../handlers/token-handler";
 import { BaseClient } from "./base-client";
 import { IArticleBookmarkRequestData } from "./definitions/definitions";
@@ -57,5 +62,27 @@ export class UserClient extends BaseClient {
   public async deleteAllBookmarks(): Promise<ISecureUser> {
     const apiUrl = "/user/bookmark/all";
     return this.deleteData<ISecureUser, any>(apiUrl);
+  }
+
+  public async getEmailAddress(): Promise<IUserEmailResponse> {
+    const apiUrl = "/user/email";
+    return this.getData<IUserEmailResponse>(apiUrl);
+  }
+
+  public async putUpdatePassword(data: string): Promise<{ status: string }> {
+    const apiUrl = "/user/password";
+    return this.putData<{ status: string }, { password: string }>(apiUrl, {
+      password: data,
+    });
+  }
+
+  public async patchNewsSources(
+    data: INewsSourcePatchRequestData
+  ): Promise<ISecureUser> {
+    const apiUrl = "/user/source";
+    return this.patchData<ISecureUser, INewsSourcePatchRequestData>(
+      apiUrl,
+      data
+    );
   }
 }
