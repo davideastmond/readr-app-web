@@ -72,9 +72,15 @@ function NewsArticleCard(props: INewsArticleCardProps) {
         <Grid item xs={12} sm container>
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
-              <StyledArticleTitle gutterBottom variant="subtitle1">
-                {props.article.title}
-              </StyledArticleTitle>
+              <ButtonBase
+                href={props.article.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <StyledArticleTitle gutterBottom variant="subtitle1">
+                  {props.article.title}
+                </StyledArticleTitle>
+              </ButtonBase>
               <Typography>{props.article.description}</Typography>
               <Typography>
                 <a

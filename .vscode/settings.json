@@ -14,7 +14,7 @@
     "source.fixAll": true
   },
   "files.eol": "\n",
-  "cSpell.words": ["Coursera", "Pojo", "Unfollow"],
+  "cSpell.words": ["Coursera", "Pojo", "Readr", "Unfollow"],
   "jestrunner.debugOptions": {
     "args": ["--no-cache"],
     "sourcemaps": "inline",

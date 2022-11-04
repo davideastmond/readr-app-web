@@ -26,7 +26,7 @@ import { useDispatch } from "react-redux";
 import {
   setAuthSessionUser,
   isSessionActiveAsync,
-} from "../../reducers/app-reducer";
+} from "../../reducers/app.reducer";
 import { AuthClient } from "../../services/client/auth-client";
 import { useNavigate } from "react-router-dom";
 import { SUPPORTED_COUNTRIES } from "../../definitions/supported-countries";
@@ -145,7 +145,11 @@ function RegisterPage() {
           Sign up
         </Typography>
       </Box>
-      {isBusy && <Spinner />}
+      {isBusy && (
+        <div className="Spinner__enclosure">
+          <Spinner />
+        </div>
+      )}
       <FormControl>
         <StyledTextField
           id="register-email"

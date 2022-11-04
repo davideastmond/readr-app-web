@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import {
   isSessionActiveAsync,
   selectIsSessionActive,
-} from "./reducers/app-reducer";
+} from "./reducers/app.reducer";
 import { useAppSelector } from "./hooks";
 
 function App() {
@@ -14,7 +14,15 @@ function App() {
 
   useEffect(() => {
     dispatch(isSessionActiveAsync());
+    window.addEventListener("focus", handleOnFocus);
+    return () => {
+      window.removeEventListener("focus", handleOnFocus);
+    };
   }, []);
+
+  const handleOnFocus = () => {
+    dispatch(isSessionActiveAsync());
+  };
 
   return (
     <div className="App">

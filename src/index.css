@@ -20,3 +20,14 @@ code {
 .MainPageBufferSpace {
   padding-top: 60px;
 }
+
+@media only screen and (max-width: 600px) {
+  .Spinner__enclosure {
+    position: sticky;
+    z-index: 1;
+    background-color: white;
+    display: flex;
+    top: 300px;
+    padding-left: 30vw;
+  }
+}

@@ -1,0 +1,21 @@
+.container__list-boxes {
+  border: 1px solid black;
+  max-width: 200px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.flex__container {
+  display: flex;
+}
+
+.container__controls {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.absolute-positioning {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+}
