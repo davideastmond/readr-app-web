@@ -31,9 +31,9 @@ function ShareButton(props: IShareButtonProps) {
       </Tooltip>
       <Dialog onClose={() => {}} open={true} fullWidth>
         <DialogTitle>Share</DialogTitle>
-        <Paper>
+        <Box>
           <StyledTextField label="" id="link"></StyledTextField>
-        </Paper>
+        </Box>
       </Dialog>
     </>
   );
