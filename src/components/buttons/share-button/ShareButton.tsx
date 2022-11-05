@@ -1,6 +1,14 @@
-import { ButtonBase, styled, Tooltip } from "@mui/material";
+import {
+  ButtonBase,
+  Dialog,
+  DialogTitle,
+  Paper,
+  styled,
+  Tooltip,
+} from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import { pallet } from "../../../themes/theme";
+import { StyledTextField } from "../../text-input";
 
 const StyledShareIcon = styled(ShareIcon)((props) => ({
   color: pallet.WoodsGreen,
@@ -15,11 +23,19 @@ interface IShareButtonProps {
 }
 function ShareButton(props: IShareButtonProps) {
   return (
-    <Tooltip title="Share article">
-      <ButtonBase>
-        <StyledShareIcon />
-      </ButtonBase>
-    </Tooltip>
+    <>
+      <Tooltip title="Share article">
+        <ButtonBase>
+          <StyledShareIcon />
+        </ButtonBase>
+      </Tooltip>
+      <Dialog onClose={() => {}} open={true} fullWidth>
+        <DialogTitle>Share</DialogTitle>
+        <Paper>
+          <StyledTextField label="" id="link"></StyledTextField>
+        </Paper>
+      </Dialog>
+    </>
   );
 }
 
