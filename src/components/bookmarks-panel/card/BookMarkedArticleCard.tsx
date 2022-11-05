@@ -3,8 +3,8 @@ import { IArticleBookmark } from "../../../definitions/user";
 import CardImage from "../../news-article/card-image/CardImage";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { pallet } from "../../../themes/theme";
-import ShareIcon from "@mui/icons-material/Share";
 import { StringHelpers } from "../../../utils/string-helpers";
+import { ShareButton } from "../../buttons/share-button";
 const StyledArticleTitle = styled(Typography)((props) => ({
   "&.MuiTypography-root": {
     fontWeight: "bold",
@@ -13,14 +13,6 @@ const StyledArticleTitle = styled(Typography)((props) => ({
 
 const StyledDeleteIcon = styled(DeleteForeverIcon)((props) => ({
   color: pallet.RedTiaMaria,
-  width: "20px",
-  "&:hover": {
-    cursor: "pointer",
-  },
-}));
-
-const StyledShareIcon = styled(ShareIcon)((props) => ({
-  color: pallet.WoodsGreen,
   width: "20px",
   "&:hover": {
     cursor: "pointer",
@@ -71,9 +63,7 @@ function BookmarkArticleCard(props: IBookmarkArticleProps) {
               <ButtonBase onClick={handleBookmarkDelete}>
                 <StyledDeleteIcon />
               </ButtonBase>
-              <ButtonBase>
-                <StyledShareIcon />
-              </ButtonBase>
+              <ShareButton />
             </div>
           </Grid>
         </Grid>

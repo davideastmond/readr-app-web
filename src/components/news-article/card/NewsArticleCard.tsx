@@ -61,6 +61,8 @@ function NewsArticleCard(props: INewsArticleCardProps) {
         flexGrow: 1,
         backgroundColor: (theme) =>
           theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+        mt: 1,
+        mb: 1,
       }}
     >
       <Grid container spacing={2}>
