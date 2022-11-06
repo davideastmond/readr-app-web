@@ -63,7 +63,7 @@ function BookmarkArticleCard(props: IBookmarkArticleProps) {
               <ButtonBase onClick={handleBookmarkDelete}>
                 <StyledDeleteIcon />
               </ButtonBase>
-              <ShareButton />
+              <ShareButton url={props.bookmark.url} />
             </div>
           </Grid>
         </Grid>

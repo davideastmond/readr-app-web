@@ -2,10 +2,18 @@
 // Allow bookmarks toggle if user is logged in
 
 import { NewsArticle } from "../../../definitions/news-article.types";
-import { Grid, Paper, ButtonBase, Typography, styled } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  ButtonBase,
+  Typography,
+  styled,
+  Box,
+} from "@mui/material";
 import CardImage from "../card-image/CardImage";
 import { StringHelpers } from "../../../utils/string-helpers";
 import { BookmarkBar } from "../../bookmark-bar";
+import { ShareButton } from "../../buttons/share-button";
 
 interface INewsArticleCardProps {
   article: NewsArticle;
@@ -100,10 +108,13 @@ function NewsArticleCard(props: INewsArticleCardProps) {
                 })}
               </Typography>
               {props.canInteract && (
-                <BookmarkBar
-                  checked={!!props.isBookmarked}
-                  onClick={handleBookmarkToggled}
-                />
+                <Box component="div" display={"flex"}>
+                  <BookmarkBar
+                    checked={!!props.isBookmarked}
+                    onClick={handleBookmarkToggled}
+                  />
+                  <ShareButton url={props.article.url} />
+                </Box>
               )}
             </Grid>
           </Grid>
