@@ -1,5 +1,11 @@
 # Readr Newsreader Web App
 
+<img src="https://github.com/davideastmond/readr-app-web/blob/dev/src/assets/screenshots/readr_headlines.jpeg?raw=true" height="300">
+<img src="https://github.com/davideastmond/readr-app-web/blob/dev/src/assets/screenshots/readr_slide-menu.jpeg?raw=true" height="300">
+<img src="https://github.com/davideastmond/readr-app-web/blob/dev/src/assets/screenshots/readr_sources-settings.jpeg?raw=true" height="300">
+<img src="https://github.com/davideastmond/readr-app-web/blob/dev/src/assets/screenshots/readr_title_screen.jpeg?raw=true" height="300">
+<img src="https://github.com/davideastmond/readr-app-web/blob/dev/src/assets/screenshots/readr_topics.jpeg?raw=true" height="300">
+
 ## About
 
 Newsreader web app (Front end) using React. It pulls news data from `newsApi` API service. This project also has a backend [Readr-Backend](https://github.com/davideastmond/readr-app-api). Live deploy at [readr.live](https://www.readr.live)
