@@ -21,6 +21,10 @@ import { AuthClient } from "../../services/client/auth-client";
 import { useNavigate } from "react-router-dom";
 import { AppLogo } from "../../components/app-logo";
 import { createFriendlyErrorMessage } from "../../utils/friendly-error-message-factory";
+import { motion } from "framer-motion";
+
+const MotionStyledFormContainer = motion(StyledFormContainer);
+
 function LoginPage() {
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const inputValuesRef = useRef<{ [keyof: string]: string }>({});
@@ -107,7 +111,12 @@ function LoginPage() {
   };
 
   return (
-    <StyledFormContainer component={"form"} display="grid" pt={5}>
+    <MotionStyledFormContainer
+      component={"form"}
+      display="grid"
+      pt={5}
+      animate={{ opacity: [0, 1] }}
+    >
       <Box display="flex" justifyContent={"center"}>
         <AppLogo width="200" />
       </Box>
@@ -174,7 +183,7 @@ function LoginPage() {
             </Alert>
           ))}
       </Box>
-    </StyledFormContainer>
+    </MotionStyledFormContainer>
   );
 }
 
