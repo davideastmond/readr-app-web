@@ -70,7 +70,7 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
     []
   );
 
-  const [snackBarOpen, setSnackBarOpen] = useState<boolean>(false);
+  const [_, setSnackBarOpen] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const [isPatchUpdating, setIsPatchUpdating] = useState<boolean>(false);
   const [isSubmitDisabled, setIsSubmitDisabled] = useState<boolean>(false);
@@ -120,7 +120,6 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
         ) {
           try {
             setIsBusy(true);
-            // Test
             const mappedSources = await fetchSourcesNone();
             setOriginalSources(mappedSources);
             setOriginalSourcesReference(mappedSources);
@@ -333,6 +332,11 @@ function NewsSourcesPanel(props: INewsSourcesPanel) {
     <Box>
       <Box>
         {appStatus.status === StateStatus.Loading && (
+          <div className="Spinner__enclosure absolute-positioning">
+            <Spinner />
+          </div>
+        )}
+        {isBusy && (
           <div className="Spinner__enclosure absolute-positioning">
             <Spinner />
           </div>
