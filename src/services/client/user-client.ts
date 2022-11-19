@@ -3,7 +3,6 @@ import {
   INewsSourcePatchRequestData,
   ISecureUser,
   IUserEmailResponse,
-  TCustomSourceFilter,
 } from "../../definitions/user";
 import { TokenHandler } from "../handlers/token-handler";
 import { BaseClient } from "./base-client";
@@ -54,9 +53,11 @@ export class UserClient extends BaseClient {
     });
   }
 
-  public async getFeed(): Promise<INewsArticleAPIResponse> {
+  public async getFeed(
+    queryParams = "?pageSize=45"
+  ): Promise<INewsArticleAPIResponse> {
     const apiUrl = "/user/feed";
-    return this.getData<INewsArticleAPIResponse>(apiUrl);
+    return this.getData<INewsArticleAPIResponse>(`${apiUrl}${queryParams}`);
   }
 
   public async deleteAllBookmarks(): Promise<ISecureUser> {

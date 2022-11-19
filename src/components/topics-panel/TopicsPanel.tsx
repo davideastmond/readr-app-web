@@ -21,10 +21,13 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { Spinner } from "../spinner";
+import { motion } from "framer-motion";
 
 interface ITopicsPanelProps {
   hasSession?: boolean;
 }
+
+const AnimatedList = motion(List);
 
 const ListItemElement = (
   label: string,
@@ -147,6 +150,7 @@ function TopicsPanel(props: ITopicsPanelProps) {
             buttonTextColor={pallet.White}
             onClick={handleEnterTopicString}
             disabled={topicsInput.length < 3}
+            sx={{ marginLeft: "5px" }}
           />
         </div>
         <div>
@@ -161,7 +165,8 @@ function TopicsPanel(props: ITopicsPanelProps) {
         </div>
       </Box>
       <Box>
-        <List
+        <AnimatedList
+          animate={{ opacity: [0, 1] }}
           sx={{
             width: "100%",
             maxWidth: 360,
@@ -173,7 +178,7 @@ function TopicsPanel(props: ITopicsPanelProps) {
             userTopics.map((el, index) =>
               ListItemElement(el, index, handleToggle, checked)
             )}
-        </List>
+        </AnimatedList>
         {(!userTopics || userTopics.length === 0) && (
           <Typography
             fontStyle={"italic"}
