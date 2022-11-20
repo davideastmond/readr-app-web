@@ -1,7 +1,7 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import { NewsSourcesPanel } from "../../components/news-sources-panel";
-import { UserSettingsPanel } from "../../components/user-settings-panel";
+import { PasswordPanel } from "../../components/password-panel";
 
 interface ISettingsProps {
   hasSession: boolean;
@@ -52,7 +52,7 @@ function Settings(props: ISettingsProps) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <UserSettingsPanel hasSession={props.hasSession} />
+        <PasswordPanel hasSession={props.hasSession} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <NewsSourcesPanel hasSession={props.hasSession} />

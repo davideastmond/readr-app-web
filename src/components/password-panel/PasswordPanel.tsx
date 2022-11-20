@@ -1,10 +1,4 @@
-import {
-  Alert,
-  FormControl,
-  styled,
-  Typography,
-  Snackbar,
-} from "@mui/material";
+import { Alert, FormControl, styled, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "../../hooks";
@@ -30,7 +24,7 @@ const StyledSettingsBox = styled(Box)((props) => ({
  * This component allows user to update their password
  * As well as first and last name. E-mail will appear as a static readonly label
  */
-function UserSettingsPanel(props: IUserSettingsPanelProps) {
+function PasswordPanel(props: IUserSettingsPanelProps) {
   const [userEmail, setUserEmail] = useState<string>("");
   const sessionUser = useAppSelector(selectSessionUser);
   const [hasError, setHasError] = useState<boolean>(false);
@@ -194,4 +188,4 @@ function UserSettingsPanel(props: IUserSettingsPanelProps) {
   );
 }
 
-export default UserSettingsPanel;
+export default PasswordPanel;
