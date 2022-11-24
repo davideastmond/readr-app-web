@@ -1,6 +1,7 @@
 import { INewsArticleAPIResponse } from "../../definitions/news-article.types";
 import {
   INewsSourcePatchRequestData,
+  IPageSizeData,
   ISecureUser,
   IUserEmailResponse,
 } from "../../definitions/user";
@@ -85,5 +86,10 @@ export class UserClient extends BaseClient {
       apiUrl,
       data
     );
+  }
+
+  public async patchPageSize(data: IPageSizeData): Promise<ISecureUser> {
+    const apiUrl = "/user/pagesize";
+    return this.patchData<ISecureUser, IPageSizeData>(apiUrl, data);
   }
 }
