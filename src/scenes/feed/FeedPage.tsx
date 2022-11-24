@@ -5,17 +5,17 @@ import { NewsArticleCard } from "../../components/news-article/card/NewsArticleC
 import "./style.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
-import {
-  deleteBookmarkAsync,
-  putBookmarkAsync,
-  selectUserBookmarks,
-} from "../../reducers/app.reducer";
+import { selectUserBookmarks } from "../../reducers/app/app.reducer";
 import { useAppSelector } from "../../hooks";
 import { Alert, Box, Typography } from "@mui/material";
 import { UserClient } from "../../services/client/user-client";
 import { NewsClient } from "../../services/client/news-client";
 
 import { pallet } from "../../themes/theme";
+import {
+  putBookmarkAsync,
+  deleteBookmarkAsync,
+} from "../../reducers/app/thunks/app.thunks";
 
 interface IFeedPageProps {
   hasSession?: boolean;

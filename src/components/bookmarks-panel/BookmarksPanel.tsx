@@ -4,11 +4,13 @@ import { Alert, Box, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../hooks";
 import {
-  deleteAllBookmarksAsync,
-  deleteBookmarkAsync,
   selectAppStatus,
   selectUserBookmarks,
-} from "../../reducers/app.reducer";
+} from "../../reducers/app/app.reducer";
+import {
+  deleteBookmarkAsync,
+  deleteAllBookmarksAsync,
+} from "../../reducers/app/thunks/app.thunks";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { AppDispatch } from "../../store";
 import { pallet } from "../../themes/theme";

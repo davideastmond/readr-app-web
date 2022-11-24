@@ -6,11 +6,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import { useAppSelector } from "../../hooks";
 import {
-  deleteTopicsAsync,
-  putTopicsAsync,
   selectAppStateStatus,
   selectUserTopics,
-} from "../../reducers/app.reducer";
+} from "../../reducers/app/app.reducer";
 import React, { useRef, useState } from "react";
 import { Alert, Box, TextField, Typography } from "@mui/material";
 
@@ -22,6 +20,10 @@ import { AppDispatch } from "../../store";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { Spinner } from "../spinner";
 import { motion } from "framer-motion";
+import {
+  putTopicsAsync,
+  deleteTopicsAsync,
+} from "../../reducers/app/thunks/app.thunks";
 
 interface ITopicsPanelProps {
   hasSession?: boolean;

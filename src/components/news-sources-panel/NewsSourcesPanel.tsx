@@ -21,11 +21,12 @@ import {
 } from "../../definitions/user";
 import { useAppSelector } from "../../hooks";
 import {
-  patchNewsSourcesAsync,
   selectAppStatus,
   selectSessionUser,
   SUCCESS_UPDATE_MESSAGE,
-} from "../../reducers/app.reducer";
+  setClearStatusMessage,
+} from "../../reducers/app/app.reducer";
+import { patchNewsSourcesAsync } from "../../reducers/app/thunks/app.thunks";
 import { StateStatus } from "../../reducers/state-store.definitions";
 import { NewsClient } from "../../services/client/news-client";
 import { AppDispatch } from "../../store";
@@ -35,7 +36,6 @@ import { StyledButton } from "../buttons/styled-button";
 import { SnackBarAlert } from "../snack-alert";
 import { Spinner } from "../spinner";
 import { NEWS_SOURCE_HELPERS } from "./news-source-helpers";
-import { setClearStatusMessage } from "../../reducers/app.reducer";
 
 import "./style.css";
 interface INewsSourcesPanel {

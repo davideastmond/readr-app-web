@@ -23,15 +23,13 @@ import {
   IRegistrationSubmissionData,
 } from "../../services/client/definitions/definitions";
 import { useDispatch } from "react-redux";
-import {
-  setAuthSessionUser,
-  isSessionActiveAsync,
-} from "../../reducers/app.reducer";
+import { setAuthSessionUser } from "../../reducers/app/app.reducer";
 import { AuthClient } from "../../services/client/auth-client";
 import { useNavigate } from "react-router-dom";
 import { SUPPORTED_COUNTRIES } from "../../definitions/supported-countries";
 import { createFriendlyErrorMessage } from "../../utils/friendly-error-message-factory";
 import { AppLogo } from "../../components/app-logo";
+import { isSessionActiveAsync } from "../../reducers/app/thunks/app.thunks";
 function RegisterPage() {
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const inputValuesRef = useRef<{ [keyof: string]: string }>({});
