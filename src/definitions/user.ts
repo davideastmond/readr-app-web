@@ -2,6 +2,10 @@ export interface ISecureUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
+    pageSize: {
+      headlines: number;
+      feed: number;
+    };
     sources: {
       option: TCustomSourceFilter;
       list: INewsSource[];
