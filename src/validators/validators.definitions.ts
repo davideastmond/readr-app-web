@@ -1,6 +1,6 @@
 export interface IValidationRule {
   name: string;
-  validationFunction: (...args: string[]) => boolean;
+  validationFunction: (...args: any[]) => boolean;
   fields: string[];
   validationMessage: string;
 }
