@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   ISecureUser,
   INewsSourcePatchRequestData,
+  IPageSizeData,
 } from "../../../definitions/user";
 import { IActiveSessionResponseData } from "../../../services/client/definitions/definitions";
 import { SessionClient } from "../../../services/client/session-client";
@@ -69,5 +70,13 @@ export const patchNewsSourcesAsync = createAsyncThunk(
   async (data: INewsSourcePatchRequestData): Promise<ISecureUser> => {
     const userClient = new UserClient();
     return userClient.patchNewsSources(data);
+  }
+);
+
+export const patchPageSize = createAsyncThunk(
+  "app/patchPageSize",
+  async (data: IPageSizeData): Promise<ISecureUser> => {
+    const userClient = new UserClient();
+    return userClient.patchPageSize(data);
   }
 );

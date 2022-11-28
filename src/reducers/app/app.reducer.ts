@@ -13,6 +13,7 @@ import {
   putTopicsAsync,
   deleteTopicsAsync,
   patchNewsSourcesAsync,
+  patchPageSize,
 } from "./thunks/app.thunks";
 
 export interface IAppState {
@@ -153,6 +154,19 @@ export const appSlice = createSlice({
       })
       .addCase(patchNewsSourcesAsync.rejected, (state, action) => {
         state.status.message = `Unable to patch news sources: ${action.error.message}`;
+        state.status.status = StateStatus.Error;
+      })
+      .addCase(patchPageSize.pending, (state) => {
+        state.status.status = StateStatus.Loading;
+        state.status.message = "Requesting patch page size data...";
+      })
+      .addCase(patchPageSize.fulfilled, (state, action) => {
+        state.status.message = null;
+        state.sessionUser = action.payload;
+        state.status.status = StateStatus.Idle;
+      })
+      .addCase(patchPageSize.rejected, (state, action) => {
+        state.status.message = `Unable to patch user pageSize data: ${action.error.message}`;
         state.status.status = StateStatus.Error;
       });
   },
