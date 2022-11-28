@@ -1,0 +1,1 @@
+export const PAGE_SIZE_NUMERIC_OPTIONS = [10, 20, 30, 40, 50, 60];
