@@ -1,12 +1,13 @@
 import { Alert, FormControl, styled, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect, useRef, useState } from "react";
+import { FormFields } from "../../definitions/form-fields";
 import { useAppSelector } from "../../hooks";
 import { selectSessionUser } from "../../reducers/app/app.reducer";
 import { UserClient } from "../../services/client/user-client";
 import { pallet } from "../../themes/theme";
-import { allFieldsAreValidated } from "../../validators/validator";
-import { UPDATE_PASSWORD_VALIDATOR } from "../../validators/validators-functions";
+import { FormInputValidator } from "../../validators/form-input-validator/form-input-validator";
+import { UPDATE_PASSWORD_RULES } from "../../validators/validator-rules";
 import { StyledButton } from "../buttons/styled-button";
 import { SnackBarAlert } from "../snack-alert";
 import { Spinner } from "../spinner";
@@ -59,7 +60,7 @@ function PasswordPanel(props: IUserSettingsPanelProps) {
     // Do a put request to update user password
     clearErrors();
     const userClient = new UserClient();
-    const plainTextPassword = inputRefs.current["update-password1"];
+    const plainTextPassword = inputRefs.current[FormFields.UpdatePassword1];
     if (!validatePasswordFields()) return;
     if (plainTextPassword) {
       try {
@@ -77,10 +78,11 @@ function PasswordPanel(props: IUserSettingsPanelProps) {
   };
 
   const validatePasswordFields = (): boolean => {
-    const result = allFieldsAreValidated(
-      UPDATE_PASSWORD_VALIDATOR,
+    const passwordUpdateValidator: FormInputValidator = new FormInputValidator(
+      UPDATE_PASSWORD_RULES,
       inputRefs.current
     );
+    const result = passwordUpdateValidator.validate();
     if (result.success) return true;
     setValidationErrors(result.validationMessages);
     setHasValidationError(true);
@@ -139,7 +141,7 @@ function PasswordPanel(props: IUserSettingsPanelProps) {
           <Box>
             <FormControl>
               <StyledTextField
-                id="update-password1"
+                id={FormFields.UpdatePassword1}
                 label="Enter a Password"
                 onChange={handleTextInputChange}
                 maxLength={255}
@@ -151,7 +153,7 @@ function PasswordPanel(props: IUserSettingsPanelProps) {
           <Box>
             <FormControl>
               <StyledTextField
-                id="update-password2"
+                id={FormFields.UpdatePassword2}
                 label="Confirm Password"
                 onChange={handleTextInputChange}
                 maxLength={255}

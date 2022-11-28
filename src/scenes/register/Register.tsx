@@ -14,8 +14,7 @@ import { StyledFormContainer } from "../../components/container";
 import { Spinner } from "../../components/spinner";
 import StyledTextField from "../../components/text-input/styled-text-field";
 import { pallet } from "../../themes/theme";
-import { allFieldsAreValidated } from "../../validators/validator";
-import { REGISTRATION_VALIDATOR } from "../../validators/validators-functions";
+import { REGISTRATION_RULES } from "../../validators/validator-rules";
 import { AppDispatch } from "../../store";
 import {
   ILoginData,
@@ -30,6 +29,8 @@ import { SUPPORTED_COUNTRIES } from "../../definitions/supported-countries";
 import { createFriendlyErrorMessage } from "../../utils/friendly-error-message-factory";
 import { AppLogo } from "../../components/app-logo";
 import { isSessionActiveAsync } from "../../reducers/app/thunks/app.thunks";
+import { FormInputValidator } from "../../validators/form-input-validator/form-input-validator";
+import { FormFields } from "../../definitions/form-fields";
 function RegisterPage() {
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const inputValuesRef = useRef<{ [keyof: string]: string }>({});
@@ -74,25 +75,27 @@ function RegisterPage() {
       return;
     }
     setIsBusy(true);
-    const result = allFieldsAreValidated(
-      REGISTRATION_VALIDATOR,
+    const registrationValidator: FormInputValidator = new FormInputValidator(
+      REGISTRATION_RULES,
       inputValuesRef.current
     );
-
+    const result = registrationValidator.validate();
     if (result.success) {
       const registrationRequest: IRegistrationSubmissionData = {
-        email: inputValuesRef.current["register-email"],
-        firstName: inputValuesRef.current["register-fn"],
-        lastName: inputValuesRef.current["register-ln"],
-        countryCode: inputValuesRef.current["register-country"],
-        plainTextPassword: inputValuesRef.current["register-password1"],
+        email: inputValuesRef.current[FormFields.RegisterEmail],
+        firstName: inputValuesRef.current[FormFields.RegisterFirstName],
+        lastName: inputValuesRef.current[FormFields.RegisterLastName],
+        countryCode: inputValuesRef.current[FormFields.RegisterCountry],
+        plainTextPassword:
+          inputValuesRef.current[FormFields.RegisterPlainTextPassword1],
       };
       try {
         await registerUser(registrationRequest);
         resetAllStatuses();
         const loginData: ILoginData = {
-          email: inputValuesRef.current["register-email"],
-          plainTextPassword: inputValuesRef.current["register-password1"],
+          email: inputValuesRef.current[FormFields.RegisterEmail],
+          plainTextPassword:
+            inputValuesRef.current[FormFields.RegisterPlainTextPassword1],
         };
         // We should immediately log them in and then push them to the hub
         await loginUser(loginData);
@@ -150,7 +153,7 @@ function RegisterPage() {
       )}
       <FormControl>
         <StyledTextField
-          id="register-email"
+          id={FormFields.RegisterEmail}
           label="E-mail"
           onChange={handleTextInputChange}
           maxLength={255}
@@ -161,7 +164,7 @@ function RegisterPage() {
       </FormControl>
       <FormControl>
         <StyledTextField
-          id="register-fn"
+          id={FormFields.RegisterFirstName}
           label="First Name"
           onChange={handleTextInputChange}
           maxLength={65}
@@ -172,7 +175,7 @@ function RegisterPage() {
       </FormControl>
       <FormControl>
         <StyledTextField
-          id="register-ln"
+          id={FormFields.RegisterLastName}
           label="Last Name"
           onChange={handleTextInputChange}
           maxLength={65}
@@ -184,7 +187,7 @@ function RegisterPage() {
       <FormControl>
         <InputLabel>Select your country</InputLabel>
         <Select
-          id="register-country"
+          id={FormFields.RegisterCountry}
           key={`selectField_register-country`}
           required={true}
           onChange={handleSelectChange}
@@ -201,7 +204,7 @@ function RegisterPage() {
       </FormControl>
       <FormControl>
         <StyledTextField
-          id="register-password1"
+          id={FormFields.RegisterPlainTextPassword1}
           label="Enter a Password"
           onChange={handleTextInputChange}
           maxLength={255}
@@ -212,7 +215,7 @@ function RegisterPage() {
       </FormControl>
       <FormControl>
         <StyledTextField
-          id="register-password2"
+          id={FormFields.RegisterPlainTextPassword2}
           label="Confirm Password"
           onChange={handleTextInputChange}
           maxLength={255}
