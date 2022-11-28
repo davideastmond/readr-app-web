@@ -89,7 +89,11 @@ export class UserClient extends BaseClient {
   }
 
   public async patchPageSize(data: IPageSizeData): Promise<ISecureUser> {
-    const apiUrl = "/user/pagesize";
+    const apiUrl = "/user/page_size";
     return this.patchData<ISecureUser, IPageSizeData>(apiUrl, data);
+  }
+
+  public async fetchUserHeadlines(): Promise<INewsArticleAPIResponse> {
+    return this.getData<INewsArticleAPIResponse>(`/user/headlines`);
   }
 }

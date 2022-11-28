@@ -34,8 +34,14 @@ function FeedPage(props: IFeedPageProps) {
     setIsLoading(true);
     setHasError(false);
     try {
-      const client = new NewsClient();
-      const data = await client.fetchHeadlines();
+      let data: INewsArticleAPIResponse;
+      if (props.hasSession) {
+        const userClient: UserClient = new UserClient();
+        data = await userClient.fetchUserHeadlines();
+      } else {
+        const client = new NewsClient();
+        data = await client.fetchHeadlines();
+      }
       setArticles(data);
       setIsLoading(false);
     } catch (err: any) {
