@@ -1,14 +1,14 @@
 import { IValidationRule } from "./validators.definitions";
 
 export const allFieldsAreValidated = (
-  validatorFunction: IValidationRule[],
+  rules: IValidationRule[],
   inputValuesRef: { [keyof: string]: string }
 ): {
   success: boolean;
   validationMessages: string[];
 } => {
   const errors: string[] = [];
-  for (const validationInstruction of validatorFunction) {
+  for (const validationInstruction of rules) {
     const fieldsToEvaluate = validationInstruction.fields.map((field) => {
       return inputValuesRef[field];
     });

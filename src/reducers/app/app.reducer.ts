@@ -1,18 +1,20 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import {
-  IArticleBookmark,
-  INewsSourcePatchRequestData,
-  ISecureUser,
-} from "../definitions/user";
-import {
-  IActiveSessionResponseData,
-  ILoginResponseData,
-} from "../services/client/definitions/definitions";
-import { SessionClient } from "../services/client/session-client";
-import { UserClient } from "../services/client/user-client";
-import { TokenHandler } from "../services/handlers/token-handler";
+import { createSlice } from "@reduxjs/toolkit";
+import { IArticleBookmark, ISecureUser } from "../../definitions/user";
+import { ILoginResponseData } from "../../services/client/definitions/definitions";
 
-import { StateStatus, TGlobalAppStoreState } from "./state-store.definitions";
+import { TokenHandler } from "../../services/handlers/token-handler";
+
+import { StateStatus, TGlobalAppStoreState } from "../state-store.definitions";
+import {
+  isSessionActiveAsync,
+  putBookmarkAsync,
+  deleteBookmarkAsync,
+  deleteAllBookmarksAsync,
+  putTopicsAsync,
+  deleteTopicsAsync,
+  patchNewsSourcesAsync,
+  patchPageSize,
+} from "./thunks/app.thunks";
 
 export interface IAppState {
   status: IStateMessageStatus;
@@ -29,72 +31,6 @@ const initialState: IAppState = {
   sessionUser: null,
   isActiveSession: false,
 };
-
-export const isSessionActiveAsync = createAsyncThunk(
-  "app/getIsSessionActiveAsync",
-  async (): Promise<IActiveSessionResponseData> => {
-    const sessionClient = new SessionClient();
-    return sessionClient.isActive();
-  }
-);
-
-export const putBookmarkAsync = createAsyncThunk(
-  "app/putBookmarkAsync",
-  async ({
-    url,
-    urlToImage,
-    title,
-    source,
-  }: {
-    url: string;
-    urlToImage: string;
-    title: string;
-    source: { name: string; id: string };
-  }): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.putBookmark({ url, urlToImage, title, source });
-  }
-);
-
-export const deleteBookmarkAsync = createAsyncThunk(
-  "app/deleteBookmarkAsync",
-  async (url: string[]): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.deleteBookmark(url);
-  }
-);
-
-export const deleteAllBookmarksAsync = createAsyncThunk(
-  "app/deleteAllBookmarks",
-  async (): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.deleteAllBookmarks();
-  }
-);
-
-export const putTopicsAsync = createAsyncThunk(
-  "app/putTopicAsync",
-  async (topics: string[]): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.putTopics(topics);
-  }
-);
-
-export const deleteTopicsAsync = createAsyncThunk(
-  "app/deleteTopicsAsync",
-  async (topics: string[]): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.deleteTopics(topics);
-  }
-);
-
-export const patchNewsSourcesAsync = createAsyncThunk(
-  "app/patchNewsSource",
-  async (data: INewsSourcePatchRequestData): Promise<ISecureUser> => {
-    const userClient = new UserClient();
-    return userClient.patchNewsSources(data);
-  }
-);
 
 export const appSlice = createSlice({
   name: "app",
@@ -218,6 +154,19 @@ export const appSlice = createSlice({
       })
       .addCase(patchNewsSourcesAsync.rejected, (state, action) => {
         state.status.message = `Unable to patch news sources: ${action.error.message}`;
+        state.status.status = StateStatus.Error;
+      })
+      .addCase(patchPageSize.pending, (state) => {
+        state.status.status = StateStatus.Loading;
+        state.status.message = "Requesting patch page size data...";
+      })
+      .addCase(patchPageSize.fulfilled, (state, action) => {
+        state.status.message = null;
+        state.sessionUser = action.payload;
+        state.status.status = StateStatus.Idle;
+      })
+      .addCase(patchPageSize.rejected, (state, action) => {
+        state.status.message = `Unable to patch user pageSize data: ${action.error.message}`;
         state.status.status = StateStatus.Error;
       });
   },

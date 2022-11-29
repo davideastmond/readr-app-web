@@ -1,4 +1,4 @@
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { Box, Tabs, Tab, Typography, styled } from "@mui/material";
 import { useState } from "react";
 import { BookmarksPanel } from "../../components/bookmarks-panel";
 import { TopicsPanel } from "../../components/topics-panel";
@@ -20,6 +20,12 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+
+const StyledFlexTabs = styled(Tabs)(() => ({
+  "& .MuiTabs-flexContainer": {
+    flexWrap: "wrap",
+  },
+}));
 
 function TabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -56,12 +62,16 @@ function HubPage(props: IHubPageProps) {
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="hub tabs">
+        <StyledFlexTabs
+          value={value}
+          onChange={handleChange}
+          aria-label="hub tabs"
+        >
           <Tab label="My feed" {...a11yProps(0)} />
           <Tab label="Headlines" {...a11yProps(1)} />
           <Tab label="My topics" {...a11yProps(2)} />
           <Tab label="Bookmarks" {...a11yProps(3)} />
-        </Tabs>
+        </StyledFlexTabs>
       </Box>
       <TabPanel value={value} index={0}>
         <Feed hasSession={props.hasSession} mode={"custom"} />

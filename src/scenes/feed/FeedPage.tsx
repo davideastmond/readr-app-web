@@ -5,17 +5,17 @@ import { NewsArticleCard } from "../../components/news-article/card/NewsArticleC
 import "./style.css";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
-import {
-  deleteBookmarkAsync,
-  putBookmarkAsync,
-  selectUserBookmarks,
-} from "../../reducers/app.reducer";
+import { selectUserBookmarks } from "../../reducers/app/app.reducer";
 import { useAppSelector } from "../../hooks";
 import { Alert, Box, Typography } from "@mui/material";
 import { UserClient } from "../../services/client/user-client";
 import { NewsClient } from "../../services/client/news-client";
 
 import { pallet } from "../../themes/theme";
+import {
+  putBookmarkAsync,
+  deleteBookmarkAsync,
+} from "../../reducers/app/thunks/app.thunks";
 
 interface IFeedPageProps {
   hasSession?: boolean;
@@ -34,8 +34,14 @@ function FeedPage(props: IFeedPageProps) {
     setIsLoading(true);
     setHasError(false);
     try {
-      const client = new NewsClient();
-      const data = await client.fetchHeadlines();
+      let data: INewsArticleAPIResponse;
+      if (props.hasSession) {
+        const userClient: UserClient = new UserClient();
+        data = await userClient.fetchUserHeadlines();
+      } else {
+        const client = new NewsClient();
+        data = await client.fetchHeadlines();
+      }
       setArticles(data);
       setIsLoading(false);
     } catch (err: any) {

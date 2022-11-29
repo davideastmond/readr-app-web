@@ -2,10 +2,8 @@ export interface ISecureUser {
   configuration: {
     topics: string[];
     bookmarks: IArticleBookmark[];
-    sources: {
-      option: TCustomSourceFilter;
-      list: INewsSource[];
-    };
+    pageSize: IPageSizeData;
+    sources: INewsSourcesUserData;
   };
   countryCode: string;
   firstName: string;
@@ -13,6 +11,14 @@ export interface ISecureUser {
   _id: string;
 }
 
+export interface INewsSourcesUserData {
+  option: TCustomSourceFilter;
+  list: INewsSource[];
+}
+export interface IPageSizeData {
+  headlines: number;
+  feed: number;
+}
 export interface INewsSourcePatchRequestData {
   option: TCustomSourceFilter;
   list: INewsSource[];

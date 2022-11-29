@@ -1,9 +1,9 @@
 import { INewsArticleAPIResponse } from "../../definitions/news-article.types";
 import {
   INewsSourcePatchRequestData,
+  IPageSizeData,
   ISecureUser,
   IUserEmailResponse,
-  TCustomSourceFilter,
 } from "../../definitions/user";
 import { TokenHandler } from "../handlers/token-handler";
 import { BaseClient } from "./base-client";
@@ -54,9 +54,11 @@ export class UserClient extends BaseClient {
     });
   }
 
-  public async getFeed(): Promise<INewsArticleAPIResponse> {
+  public async getFeed(
+    queryParams = "?pageSize=45"
+  ): Promise<INewsArticleAPIResponse> {
     const apiUrl = "/user/feed";
-    return this.getData<INewsArticleAPIResponse>(apiUrl);
+    return this.getData<INewsArticleAPIResponse>(`${apiUrl}${queryParams}`);
   }
 
   public async deleteAllBookmarks(): Promise<ISecureUser> {
@@ -84,5 +86,14 @@ export class UserClient extends BaseClient {
       apiUrl,
       data
     );
+  }
+
+  public async patchPageSize(data: IPageSizeData): Promise<ISecureUser> {
+    const apiUrl = "/user/page_size";
+    return this.patchData<ISecureUser, IPageSizeData>(apiUrl, data);
+  }
+
+  public async fetchUserHeadlines(): Promise<INewsArticleAPIResponse> {
+    return this.getData<INewsArticleAPIResponse>(`/user/headlines`);
   }
 }

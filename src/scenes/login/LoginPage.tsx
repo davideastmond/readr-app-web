@@ -5,22 +5,25 @@ import { StyledFormContainer } from "../../components/container";
 import { Spinner } from "../../components/spinner";
 import StyledTextField from "../../components/text-input/styled-text-field";
 import { pallet } from "../../themes/theme";
-import { allFieldsAreValidated } from "../../validators/validator";
-import { LOGIN_VALIDATOR } from "../../validators/validators-functions";
+import { LOGIN_RULES } from "../../validators/validator-rules";
 import { AppDispatch } from "../../store";
 import {
   ILoginData,
   ILoginResponseData,
 } from "../../services/client/definitions/definitions";
 import { useDispatch } from "react-redux";
-import {
-  setAuthSessionUser,
-  isSessionActiveAsync,
-} from "../../reducers/app.reducer";
+import { setAuthSessionUser } from "../../reducers/app/app.reducer";
 import { AuthClient } from "../../services/client/auth-client";
 import { useNavigate } from "react-router-dom";
 import { AppLogo } from "../../components/app-logo";
 import { createFriendlyErrorMessage } from "../../utils/friendly-error-message-factory";
+import { motion } from "framer-motion";
+import { isSessionActiveAsync } from "../../reducers/app/thunks/app.thunks";
+import { FormFields } from "../../definitions/form-fields";
+import { FormInputValidator } from "../../validators/form-input-validator/form-input-validator";
+
+const MotionStyledFormContainer = motion(StyledFormContainer);
+
 function LoginPage() {
   const [isBusy, setIsBusy] = useState<boolean>(false);
   const inputValuesRef = useRef<{ [keyof: string]: string }>({});
@@ -66,15 +69,16 @@ function LoginPage() {
       return;
     }
     setIsBusy(true);
-    const result = allFieldsAreValidated(
-      LOGIN_VALIDATOR,
+    const loginValidator: FormInputValidator = new FormInputValidator(
+      LOGIN_RULES,
       inputValuesRef.current
     );
+    const result = loginValidator.validate();
 
     if (result.success) {
       const loginData: ILoginData = {
-        email: inputValuesRef.current["sign-in-email"],
-        plainTextPassword: inputValuesRef.current["sign-in-password"],
+        email: inputValuesRef.current[FormFields.SignInEmail],
+        plainTextPassword: inputValuesRef.current[FormFields.SignInPassword],
       };
       try {
         await loginUser(loginData);
@@ -107,7 +111,12 @@ function LoginPage() {
   };
 
   return (
-    <StyledFormContainer component={"form"} display="grid" pt={5}>
+    <MotionStyledFormContainer
+      component={"form"}
+      display="grid"
+      pt={5}
+      animate={{ opacity: [0, 1] }}
+    >
       <Box display="flex" justifyContent={"center"}>
         <AppLogo width="200" />
       </Box>
@@ -119,7 +128,7 @@ function LoginPage() {
       {isBusy && <Spinner />}
       <FormControl>
         <StyledTextField
-          id="sign-in-email"
+          id={FormFields.SignInEmail}
           label="E-mail"
           onChange={handleTextInputChange}
           maxLength={255}
@@ -130,7 +139,7 @@ function LoginPage() {
       </FormControl>
       <FormControl>
         <StyledTextField
-          id="sign-in-password"
+          id={FormFields.SignInPassword}
           label="Password"
           onChange={handleTextInputChange}
           maxLength={255}
@@ -174,7 +183,7 @@ function LoginPage() {
             </Alert>
           ))}
       </Box>
-    </StyledFormContainer>
+    </MotionStyledFormContainer>
   );
 }
 
