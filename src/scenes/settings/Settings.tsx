@@ -1,7 +1,8 @@
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
+import { HeadlinesTopicsPanel } from "../../components/headlines-topics-panel";
 import { NewsSourcesPanel } from "../../components/news-sources-panel";
-import { UserSettingsPanel } from "../../components/user-settings-panel";
+import { PasswordPanel } from "../../components/password-panel";
 
 interface ISettingsProps {
   hasSession: boolean;
@@ -49,13 +50,17 @@ function Settings(props: ISettingsProps) {
         <Tabs value={value} onChange={handleChange} aria-label="hub tabs">
           <Tab label="Password & Profile" {...a11yProps(0)} />
           <Tab label="News Sources" {...a11yProps(1)} />
+          <Tab label="Headlines & Topics" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <UserSettingsPanel hasSession={props.hasSession} />
+        <PasswordPanel hasSession={props.hasSession} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <NewsSourcesPanel hasSession={props.hasSession} />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <HeadlinesTopicsPanel hasSession={props.hasSession} />
       </TabPanel>
     </Box>
   );

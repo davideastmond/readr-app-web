@@ -39,13 +39,7 @@ const StyledArticleTitle = styled(Typography)((props) => ({
   },
 }));
 function NewsArticleCard(props: INewsArticleCardProps) {
-  const handleBookmarkToggled = ({
-    current,
-    next,
-  }: {
-    current: boolean;
-    next: boolean;
-  }) => {
+  const handleBookmarkToggled = ({ next }: { next: boolean }) => {
     if (next === true) {
       props.onAddBookmark &&
         props.onAddBookmark({
