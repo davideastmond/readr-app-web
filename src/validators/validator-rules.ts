@@ -9,7 +9,7 @@ export const LOGIN_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return StringHelpers.isEmailValid({ email: args[0] });
     },
-    fields: ["sign-in-email"],
+    fields: [FormFields.SignInEmail],
     validationMessage: "Enter a valid e-mail address",
   },
   {
@@ -17,7 +17,7 @@ export const LOGIN_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return !!(args[0] && args[0].length > 0);
     },
-    fields: ["sign-in-password"],
+    fields: [FormFields.SignInPassword],
     validationMessage: "Enter password",
   },
 ];
@@ -28,7 +28,7 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return StringHelpers.isEmailValid({ email: args[0] });
     },
-    fields: ["register-email"],
+    fields: [FormFields.RegisterEmail],
     validationMessage: "Enter a valid e-mail address",
   },
   {
@@ -36,7 +36,7 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return StringHelpers.validatePasswordComplexity(args[0]);
     },
-    fields: ["register-password1"],
+    fields: [FormFields.RegisterPlainTextPassword1],
     validationMessage:
       "Password should be at least 8 characters, contain a number, an uppercase letter and a special character",
   },
@@ -45,7 +45,10 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return args[0] === args[1];
     },
-    fields: ["register-password1", "register-password2"],
+    fields: [
+      FormFields.RegisterPlainTextPassword1,
+      FormFields.RegisterPlainTextPassword2,
+    ],
     validationMessage: "Confirm that your passwords match",
   },
   {
@@ -53,7 +56,7 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return !!(args[0] && args[0].length > 1);
     },
-    fields: ["register-fn"],
+    fields: [FormFields.RegisterFirstName],
     validationMessage: "Enter a first name",
   },
   {
@@ -61,7 +64,7 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return !!(args[0] && args[0].length > 1);
     },
-    fields: ["register-ln"],
+    fields: [FormFields.RegisterLastName],
     validationMessage: "Enter a last name",
   },
   {
@@ -69,7 +72,7 @@ export const REGISTRATION_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return !!(args[0] && args[0].length > 1);
     },
-    fields: ["register-country"],
+    fields: [FormFields.RegisterCountry],
     validationMessage: "Select a supported country",
   },
 ];
@@ -80,7 +83,7 @@ export const UPDATE_PASSWORD_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return StringHelpers.validatePasswordComplexity(args[0]);
     },
-    fields: ["update-password1"],
+    fields: [FormFields.UpdatePassword1],
     validationMessage:
       "Password should be at least 8 characters, contain a number, an uppercase letter and a special character",
   },
@@ -89,7 +92,7 @@ export const UPDATE_PASSWORD_RULES: IValidationRule[] = [
     validationFunction: (...args: string[]) => {
       return args[0] === args[1];
     },
-    fields: ["update-password1", "update-password2"],
+    fields: [FormFields.UpdatePassword1, FormFields.UpdatePassword2],
     validationMessage: "Confirm that your passwords match",
   },
 ];
