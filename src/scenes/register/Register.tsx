@@ -75,11 +75,11 @@ function RegisterPage() {
       return;
     }
     setIsBusy(true);
-    const registrationValidator: FormInputValidator = new FormInputValidator(
-      REGISTRATION_RULES,
-      inputValuesRef.current
+    const registrationValidator: FormInputValidator = new FormInputValidator();
+    const result = registrationValidator.validate(
+      inputValuesRef.current,
+      REGISTRATION_RULES
     );
-    const result = registrationValidator.validate();
     if (result.success) {
       const registrationRequest: IRegistrationSubmissionData = {
         email: inputValuesRef.current[FormFields.RegisterEmail],

@@ -15,7 +15,7 @@ export const LOGIN_RULES: IValidationRule[] = [
   {
     name: "password is present",
     validationFunction: (...args: string[]) => {
-      return !!(args[0] && args[0].length > 0);
+      return !!(args[0] && args[0].trim().length > 0);
     },
     fields: [FormFields.SignInPassword],
     validationMessage: "Enter password",

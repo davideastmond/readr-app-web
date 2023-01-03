@@ -73,11 +73,8 @@ function LoginPage() {
       return;
     }
     setIsBusy(true);
-    const loginValidator: FormInputValidator = new FormInputValidator(
-      LOGIN_RULES,
-      inputValuesRef.current
-    );
-    const result = loginValidator.validate();
+    const loginValidator: FormInputValidator = new FormInputValidator();
+    const result = loginValidator.validate(inputValuesRef.current, LOGIN_RULES);
 
     if (result.success) {
       const loginData: ILoginData = {
