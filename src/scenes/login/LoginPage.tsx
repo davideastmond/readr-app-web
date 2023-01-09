@@ -52,9 +52,9 @@ function LoginPage() {
   };
 
   const generateValidationErrors = (errorMessages: string[]) => {
-    return errorMessages.map((errorMessage) => (
+    return errorMessages.map((errorMessage, index) => (
       <Alert
-        key={errorMessage}
+        key={`${index}_errorMessage`}
         sx={{ backgroundColor: pallet.White }}
         severity="error"
       >
@@ -87,8 +87,7 @@ function LoginPage() {
         navigate("/hub");
       } catch (err: any) {
         setHasActionError(true);
-        setActionErrorMessages(err.message);
-        const errors = actionErrorMessages || [];
+        const errors = [];
         errors.push(err.message);
         setActionErrorMessages(errors);
       } finally {
@@ -178,9 +177,9 @@ function LoginPage() {
           generateValidationErrors(validationErrors)}
         {hasActionError &&
           actionErrorMessages &&
-          actionErrorMessages.map((msg) => (
+          actionErrorMessages.map((msg, index) => (
             <Alert
-              key={msg}
+              key={`${index}_msg`}
               sx={{ backgroundColor: pallet.White }}
               severity="error"
             >
