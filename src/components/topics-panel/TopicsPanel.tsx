@@ -91,6 +91,10 @@ function TopicsPanel(props: ITopicsPanelProps) {
   };
 
   const handleEnterTopicString = () => {
+    parseTopicInputTextBox();
+  };
+
+  const parseTopicInputTextBox = () => {
     if (topicsInput.trim() !== "") {
       const commaSeparatedTopics = topicsInput
         .split(",")
@@ -100,7 +104,6 @@ function TopicsPanel(props: ITopicsPanelProps) {
       setTopicsInput("");
     }
   };
-
   const handleTopicsInputBoxChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -117,6 +120,12 @@ function TopicsPanel(props: ITopicsPanelProps) {
       dispatch(deleteTopicsAsync(topicElements));
       setChecked([-1]);
       checkBoxState.current = {};
+    }
+  };
+
+  const handleKeydownEvent = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 13) {
+      parseTopicInputTextBox();
     }
   };
   return (
@@ -142,6 +151,7 @@ function TopicsPanel(props: ITopicsPanelProps) {
             label="Enter topics"
             id="text-field-topics"
             onChange={handleTopicsInputBoxChange}
+            onKeyDown={handleKeydownEvent}
             value={topicsInput}
             sx={{ width: "100%" }}
           />
@@ -162,7 +172,7 @@ function TopicsPanel(props: ITopicsPanelProps) {
             marginTop={"10px"}
           >
             You can enter a single keyword, or bunch of keywords separated by
-            commas. Hit the add button.
+            commas. Tap the add button.
           </Typography>
         </div>
       </Box>

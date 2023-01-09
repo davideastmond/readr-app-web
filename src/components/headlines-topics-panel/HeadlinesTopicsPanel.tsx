@@ -71,11 +71,8 @@ function HeadlinesTopicsPanel(props: IHeadlinesTopicsPanelProps) {
       [`${FormFields.NumberOfHeadlines}`]: headlinesCount,
       [`${FormFields.NumberOfCustom}`]: feedCount,
     };
-    const fieldValidator = new FormInputValidator(
-      PAGESIZE_RULES,
-      fieldsToValidate
-    );
-    const result = fieldValidator.validate();
+    const fieldValidator = new FormInputValidator();
+    const result = fieldValidator.validate(fieldsToValidate, PAGESIZE_RULES);
     if (result.success) {
       // do the dispatch
       dispatch(
