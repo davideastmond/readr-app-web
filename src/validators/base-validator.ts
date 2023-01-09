@@ -6,15 +6,15 @@ export type ValidationResultResponse = {
 };
 
 export interface IValidator {
-  validate(): ValidationResultResponse;
+  validate(
+    inputValuesRef: { [keyof: string]: string | number },
+    rules: IValidationRule[]
+  ): ValidationResultResponse;
 }
 
 export abstract class BaseValidator implements IValidator {
-  protected rules: IValidationRule[];
-
-  constructor(rules: IValidationRule[]) {
-    this.rules = rules;
-  }
-
-  abstract validate(): ValidationResultResponse;
+  abstract validate(
+    inputValuesRef: { [keyof: string]: string | number },
+    rules: IValidationRule[]
+  ): ValidationResultResponse;
 }

@@ -1,21 +1,16 @@
+import { FormFields } from "../../definitions/form-fields";
 import { BaseValidator, ValidationResultResponse } from "../base-validator";
 import { IValidationRule } from "../validators.definitions";
 
 export class FormInputValidator extends BaseValidator {
-  private inputValuesRef: { [keyof: string]: string | number };
-  constructor(
-    rules: IValidationRule[],
-    inputValuesRef: { [keyof: string]: string | number }
-  ) {
-    super(rules);
-    this.inputValuesRef = inputValuesRef;
-  }
-
-  validate(): ValidationResultResponse {
+  validate(
+    inputValuesRef: { [keyof: FormFields | string]: string | number },
+    rules: IValidationRule[]
+  ): ValidationResultResponse {
     const errors: string[] = [];
-    for (const validationInstruction of this.rules) {
+    for (const validationInstruction of rules) {
       const fieldsToEvaluate = validationInstruction.fields.map((field) => {
-        return this.inputValuesRef[field];
+        return inputValuesRef[field];
       });
       if (!validationInstruction.validationFunction(...fieldsToEvaluate)) {
         errors.push(validationInstruction.validationMessage);

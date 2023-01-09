@@ -78,11 +78,12 @@ function PasswordPanel(props: IUserSettingsPanelProps) {
   };
 
   const validatePasswordFields = (): boolean => {
-    const passwordUpdateValidator: FormInputValidator = new FormInputValidator(
-      UPDATE_PASSWORD_RULES,
-      inputRefs.current
+    const passwordUpdateValidator: FormInputValidator =
+      new FormInputValidator();
+    const result = passwordUpdateValidator.validate(
+      inputRefs.current,
+      UPDATE_PASSWORD_RULES
     );
-    const result = passwordUpdateValidator.validate();
     if (result.success) return true;
     setValidationErrors(result.validationMessages);
     setHasValidationError(true);

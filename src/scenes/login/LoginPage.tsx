@@ -52,8 +52,12 @@ function LoginPage() {
   };
 
   const generateValidationErrors = (errorMessages: string[]) => {
-    return errorMessages.map((errorMessage) => (
-      <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+    return errorMessages.map((errorMessage, index) => (
+      <Alert
+        key={`${index}_errorMessage`}
+        sx={{ backgroundColor: pallet.White }}
+        severity="error"
+      >
         {errorMessage}
       </Alert>
     ));
@@ -69,11 +73,8 @@ function LoginPage() {
       return;
     }
     setIsBusy(true);
-    const loginValidator: FormInputValidator = new FormInputValidator(
-      LOGIN_RULES,
-      inputValuesRef.current
-    );
-    const result = loginValidator.validate();
+    const loginValidator: FormInputValidator = new FormInputValidator();
+    const result = loginValidator.validate(inputValuesRef.current, LOGIN_RULES);
 
     if (result.success) {
       const loginData: ILoginData = {
@@ -86,8 +87,7 @@ function LoginPage() {
         navigate("/hub");
       } catch (err: any) {
         setHasActionError(true);
-        setActionErrorMessages(err.message);
-        const errors = actionErrorMessages || [];
+        const errors = [];
         errors.push(err.message);
         setActionErrorMessages(errors);
       } finally {
@@ -177,8 +177,12 @@ function LoginPage() {
           generateValidationErrors(validationErrors)}
         {hasActionError &&
           actionErrorMessages &&
-          actionErrorMessages.map((msg) => (
-            <Alert sx={{ backgroundColor: pallet.White }} severity="error">
+          actionErrorMessages.map((msg, index) => (
+            <Alert
+              key={`${index}_msg`}
+              sx={{ backgroundColor: pallet.White }}
+              severity="error"
+            >
               {createFriendlyErrorMessage(msg)}
             </Alert>
           ))}
